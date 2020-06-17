@@ -438,7 +438,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         public void run() {
                             //mReadOdometerButton.setText(no + " km @ 80mm" + odometer4[0]+temp[0]+"|"+ odometer3[0] +temp[1]+"|"+ odometer2[0]+temp[2] +"|"+odometer1[0] +"   "+odotemp1);
                             //mReadOdometerButton.setText(etToll + " km @ 80mm usig:" + temp3[0] + "|" + temp3[1] + "|" + temp3[2] + "|" + temp3[3]+"|||"+  "|" + temp[2] + "|" + temp[1] + "|"+ temp[0] + "|" +" HEX: " + temp2);
-                            mReadOdometerButton.setText( etToll+" miles @ 80mm"+'\n' + etToll2+" miles @ 85mm"+'\n' + etToll3+" miles @ 90mm"  );
+                            mReadOdometerButton.setText( etToll+" km @ 80mm"+'\n' + etToll2+" km @ 85mm"+'\n' + etToll3+" km @ 90mm"  );
                             setProgressBarIndeterminateVisibility(false);
                         }
 
