@@ -15,6 +15,15 @@
  */
 package youten.redo.ble.readwrite;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import youten.redo.ble.util.BleUtil;
+import youten.redo.ble.util.BleUuid;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -34,24 +43,22 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.UUID;
-
-import youten.redo.ble.util.BleUtil;
-import youten.redo.ble.util.BleUuid;
+import javax.crypto.spec.IvParameterSpec;
 
 /**
  * BLEデバイスへのconnect・Service
  * Discoveryを実施し、Characteristicsのread/writeをハンドリングするActivity
  */
 public class DeviceActivity extends Activity implements View.OnClickListener {
-    public static final String EXTRA_BLUETOOTH_DEVICE = "BT_DEVICE";
     private static final String TAG = "BLEDevice";
+
+    public static final String EXTRA_BLUETOOTH_DEVICE = "BT_DEVICE";
     private BluetoothAdapter mBTAdapter;
     private BluetoothDevice mDevice;
     private BluetoothGatt mConnGatt;
     private int mStatus;
 
+    private Button mReadBoardNameButton;
     private Button mReadManufacturerNameButton;
     private Button mReadSerialNumberButton;
     private Button mReadESCFirmwareButton;
@@ -66,6 +73,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
     private final BluetoothGattCallback mGattcallback = new BluetoothGattCallback() {
         @Override
+
+
         public void onConnectionStateChange(BluetoothGatt gatt, int status,
                                             int newState) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -75,6 +84,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 mStatus = newState;
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        mReadBoardNameButton.setEnabled(false);
                         mReadManufacturerNameButton.setEnabled(false);
                         mReadSerialNumberButton.setEnabled(false);
                         mWriteAlertLevelButton.setEnabled(false);
@@ -94,8 +104,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             }
         }
 
-        ;
-
+        public int toUnsignedInt(byte x) {
+            return ((int) x) & 0xff;
+        }
         public String toHex(byte[] arg) {
             return String.format("%02x", arg);
         }
@@ -154,6 +165,23 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         public void run() {
                             mReadOdometerButton.setEnabled(true);
                             mReadRideStateButton.setEnabled(true);
+
+
+                        }
+
+                        ;
+                    });
+                }
+                if (BleUuid.SERVICE_DEVICE_INFORMATION4.equalsIgnoreCase(service
+                        .getUuid().toString())) {
+                    mReadBoardNameButton
+                            .setTag(service.getCharacteristic(UUID
+                                    .fromString(BleUuid.CHAR_BOARD_NAME_STRING)));
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            mReadBoardNameButton.setEnabled(true);
+
 
 
                         }
@@ -249,7 +277,19 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                         ;
                     });
-                } else if (BleUuid.CHAR_SERIAL_NUMBEAR_STRING
+                } else if (BleUuid.CHAR_BOARD_NAME_STRING
+                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
+                    final String name = characteristic.getStringValue(0);
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            mReadBoardNameButton.setText(name);
+                            setProgressBarIndeterminateVisibility(false);
+                        }
+
+                        ;
+                    });
+                }else if (BleUuid.CHAR_SERIAL_NUMBEAR_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
                     final String name = characteristic.getStringValue(0);
 
@@ -301,7 +341,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     if (name.equalsIgnoreCase("[1]")) {
                         name = "Charging";
                     } else {
-                        name = "NotCharging";
+                        name = "Not Charging";
                     }
                     String finalName = name;
                     runOnUiThread(new Runnable() {
@@ -368,7 +408,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     temp[1] = temp3[2];
                     temp[2] = temp3[1];
                     //temp[3] = temp3[0];
-
+                    int tempint = toUnsignedInt(temp[0]);
+                    temp[1] = temp3[2];
+                    temp[2] = temp3[1];
+                    //temp[3] = temp3[0];
                     //temp3 = characteristic.getValue();
                     //Integer temp3 = characteristic.getIntValue(0,0);
                     //final String name2 =  name.toString();
@@ -445,6 +488,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
         // state
         mStatus = BluetoothProfile.STATE_DISCONNECTED;
+        mReadBoardNameButton = (Button) findViewById(R.id.read_board_name_button);
+        mReadBoardNameButton.setOnClickListener(this);
         mReadManufacturerNameButton = (Button) findViewById(R.id.read_manufacturer_name_button);
         mReadManufacturerNameButton.setOnClickListener(this);
         mReadSerialNumberButton = (Button) findViewById(R.id.read_serial_number_button);
@@ -492,6 +537,15 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.read_manufacturer_name_button) {
+            if ((v.getTag() != null)
+                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
+                        .getTag();
+                if (mConnGatt.readCharacteristic(ch)) {
+                    setProgressBarIndeterminateVisibility(true);
+                }
+            }
+        } else if (v.getId() == R.id.read_board_name_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
@@ -633,6 +687,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         }
 
         // button disable
+        mReadBoardNameButton.setEnabled(false);
         mReadManufacturerNameButton.setEnabled(false);
         mReadSerialNumberButton.setEnabled(false);
         mWriteAlertLevelButton.setEnabled(false);

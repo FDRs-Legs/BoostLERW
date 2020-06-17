@@ -15,6 +15,10 @@
  */
 package youten.redo.ble.readwrite;
 
+import java.util.List;
+
+import youten.redo.ble.util.ScannedDevice;
+
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,10 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import java.util.List;
-
-import youten.redo.ble.util.ScannedDevice;
 
 /**
  * スキャンされたBLEデバイスリストのAdapter

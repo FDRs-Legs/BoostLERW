@@ -8,6 +8,7 @@
     <string name="action_scan">SCAN</string>
     <string name="action_stop">STOP</string>
     <!-- Device -->
+    <string name="read_board_name">Read Board Name</string>
     <string name="read_manufacturer_name">Read Manufacturer Name</string>
     <string name="read_serial_number">Read Serial Number</string>
     <string name="read_esc_firmware_number">Read Firmware Number</string>
