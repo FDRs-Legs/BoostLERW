@@ -17,6 +17,7 @@ package youten.redo.ble.readwrite;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.text.BreakIterator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +35,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
+import android.icu.text.DecimalFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -105,8 +107,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         }
 //playing with how to read the odometer
 
-        public int toUnsignedInt(byte x) {
-            return ((int) x) & 0xff;
+        public int unsignedToBytes(byte b) {
+            return b & 0xFF;
         }
         public String toHex(byte[] arg) {
             return String.format("%02x", arg);
@@ -120,6 +122,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             }
             return sb.toString();
         }
+
+
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
@@ -389,10 +393,11 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     int i;
 
                     //String odotemp1 = toHex(temp3);
-                    byte[] temp = new byte[size - 1];
+                    byte[] temp = new byte[size-1];
                     //for(i = 0; i <size; i++){
                     //		temp[i] = temp3 [index-i];
                     //}
+  /*
                     byte[] odometer1 = new byte[1];
                     odometer1[0] = temp3[0];
                     byte[] odometer2 = new byte[1];
@@ -401,14 +406,15 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     odometer3[0] = temp3[2];
                     byte[] odometer4 = new byte[1];
                     odometer4[0] = temp3[1];
-
+*/
+                    //temp[0] = temp3[3];
                     temp[0] = temp3[2];
                     temp[1] = temp3[1];
                     temp[2] = temp3[0];
-                    //temp[3] = temp3[0];
-                    int tempint = toUnsignedInt(temp[0]);
-                    temp[1] = temp3[2];
-                    temp[2] = temp3[1];
+                    //temp[0] = (byte) unsignedToBytes(temp[0]);
+                    //temp[1] = (byte) unsignedToBytes(temp[1]);
+                    //temp[2] = (byte) unsignedToBytes(temp[2]);
+
                     //temp[3] = temp3[0];
                     //temp3 = characteristic.getValue();
                     //Integer temp3 = characteristic.getIntValue(0,0);
@@ -417,17 +423,22 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     //String odotemp1 = odometer4[0]+"|"+ odometer3[0] +"|"+ odometer2[0];
                     //final String name2 = Arrays.toString(temp3);
                     long n = Long.parseLong(String.valueOf(temp2), 16);
-                    long n4 = Long.parseLong(String.valueOf(odometer4[0]), 16);
-                    long n3 = Long.parseLong(String.valueOf(odometer3[0]), 16);
-                    long n2 = Long.parseLong(String.valueOf(odometer2[0]), 16);
-                    long n1 = Long.parseLong(String.valueOf(odometer1[0]), 16);
-                    double no = (n * (2 * 3.141592653589793 * 40));
+                  //  long n4 = Long.parseLong(String.valueOf(odometer4[0]), 16);
+                    //long n3 = Long.parseLong(String.valueOf(odometer3[0]), 16);
+                    //long n2 = Long.parseLong(String.valueOf(odometer2[0]), 16);
+                    //long n1 = Long.parseLong(String.valueOf(odometer1[0]), 16);
+                    double no = ((n * (2 * 3.141592653589793 * 40))/1000000)-160;
+                    double no2 = ((n * (2 * 3.141592653589793 * 42.5))/1000000)-160;
+                    double no3 = ((n * (2 * 3.141592653589793 * 45))/1000000)-160;
+                 String etToll = String.format("%.2f", no);
+                    String etToll2 = String.format("%.2f", no2);
+                    String etToll3 = String.format("%.2f", no3);
                     //Log.d("YOLO__420__XXX", String.format("%s", n));
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //mReadOdometerButton.setText(no + " km @ 80mm" + odometer4[0]+temp[0]+"|"+ odometer3[0] +temp[1]+"|"+ odometer2[0]+temp[2] +"|"+odometer1[0] +"   "+odotemp1);
-                            mReadOdometerButton.setText(no + " km @ 80mm usig:" + temp3[0] + "|" + temp3[1] + "|" + temp3[2] + "|" + temp3[3]+" HEX: " + temp2);
-                            //	mReadOdometerButton.setText( " miles @ 80mm" + temp3);
+                            //mReadOdometerButton.setText(etToll + " km @ 80mm usig:" + temp3[0] + "|" + temp3[1] + "|" + temp3[2] + "|" + temp3[3]+"|||"+  "|" + temp[2] + "|" + temp[1] + "|"+ temp[0] + "|" +" HEX: " + temp2);
+                            mReadOdometerButton.setText( etToll+" miles @ 80mm"+'\n' + etToll2+" miles @ 85mm"+'\n' + etToll3+" miles @ 90mm"  );
                             setProgressBarIndeterminateVisibility(false);
                         }
 
