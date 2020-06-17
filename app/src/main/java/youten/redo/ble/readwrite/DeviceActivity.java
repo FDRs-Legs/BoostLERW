@@ -103,6 +103,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 });
             }
         }
+//playing with how to read the odometer
 
         public int toUnsignedInt(byte x) {
             return ((int) x) & 0xff;
@@ -141,15 +142,12 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                     .fromString(BleUuid.CHAR_FIRMWARE_ESC_STRING)));
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            //Log.d("poopiebutt", String.valueOf(service.getCharacteristic(UUID.fromString("00001801-0000-1000-8000-00805f9b34fb"))));
+
                             mReadManufacturerNameButton.setEnabled(true);
                             mReadSerialNumberButton.setEnabled(true);
                             mReadESCFirmwareButton.setEnabled(true);
-
-
                         }
 
-                        ;
                     });
                 }
                 if (BleUuid.SERVICE_DEVICE_INFORMATION3.equalsIgnoreCase(service
