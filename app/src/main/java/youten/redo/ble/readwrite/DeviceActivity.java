@@ -402,9 +402,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     byte[] odometer4 = new byte[1];
                     odometer4[0] = temp3[1];
 
-                    temp[0] = temp3[3];
-                    temp[1] = temp3[2];
-                    temp[2] = temp3[1];
+                    temp[0] = temp3[2];
+                    temp[1] = temp3[1];
+                    temp[2] = temp3[0];
                     //temp[3] = temp3[0];
                     int tempint = toUnsignedInt(temp[0]);
                     temp[1] = temp3[2];
@@ -421,7 +421,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     long n3 = Long.parseLong(String.valueOf(odometer3[0]), 16);
                     long n2 = Long.parseLong(String.valueOf(odometer2[0]), 16);
                     long n1 = Long.parseLong(String.valueOf(odometer1[0]), 16);
-                    double no = (n * (2 * 3.141592653589793 * 42.5));
+                    double no = (n * (2 * 3.141592653589793 * 40));
                     //Log.d("YOLO__420__XXX", String.format("%s", n));
                     runOnUiThread(new Runnable() {
                         public void run() {
