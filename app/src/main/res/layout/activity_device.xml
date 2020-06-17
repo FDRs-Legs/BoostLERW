@@ -47,19 +47,23 @@
 
     <Button
         android:id="@+id/read_battery_state_button"
-        android:layout_width="209dp"
-        android:layout_height="77dp"
+        android:layout_width="204dp"
+        android:layout_height="76dp"
         android:layout_above="@+id/read_odometer_button"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-5dp"
         android:layout_toEndOf="@+id/read_battery_level_button"
         android:text="@string/read_battery_state_number" />
 
     <Button
         android:id="@+id/read_battery_level_button"
-        android:layout_width="198dp"
+        android:layout_width="206dp"
         android:layout_height="79dp"
         android:layout_above="@+id/read_odometer_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
         android:layout_marginBottom="-2dp"
         android:text="@string/read_battery_level_number" />
 
@@ -76,7 +80,9 @@
         android:layout_width="210dp"
         android:layout_height="117dp"
         android:layout_above="@+id/read_ride_state_button"
-        android:layout_marginStart="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginBottom="3dp"
         android:layout_toEndOf="@+id/write_eco_level_button"
         android:text="@string/write_alert_level" />
