@@ -9,7 +9,7 @@ BLERW
 Project built in Android Studio.
 
 You can side load th 6/18/2020 apk from the zip file app-debug.zip
-https://filebin.net/d42wobkhynne77i4/app-debug.zip?t=daejks41
+https://filebin.net/d42wobkhynne77i4/app-debug.zip?t=iqdv1w07
 
 Known Issues:
 
