@@ -16,7 +16,8 @@ Known Issues:
 View breaks when changing from portrait. Thankfully this helps reset the BLE connection if it seems to hang while reading initial data.
 Surely this is a feature
 
-My odometer does not jive with other app readings. Odometer field currently has the hex and decimal revolution counters for debugging.
+My odometer does not jive with other app readings. Only calculated in kilometers like a civilized person.
+Odometer is calculated from 3 signed bytes converted to a hexstring before converting to decimal and diving by 4 (I am pretty sure it reports quarter revolutions) and multiplied by 2piR (R=80,85,90 millimeter hardcoded).
 
 Nice to Haves:
 
