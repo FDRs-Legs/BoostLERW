@@ -352,17 +352,26 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         byte[] temp3 = characteristic.getValue();
                         //final String name = characteristic.getStringValue(0);
                         String name = Arrays.toString(temp3);
-                        if (name.equalsIgnoreCase("[1]")) {
-                            name = "1. Lights On?";
-                        } else  if (name.equalsIgnoreCase("[2]")){
+                        if (name.equalsIgnoreCase("[0]")) {
+                            name = "1. Lights Off?";
+                        } else  if (name.equalsIgnoreCase("[1]")){
                             name = "2. Lights Blink?";
-                        }else  if (name.equalsIgnoreCase("[3]")){
+                        }else  if (name.equalsIgnoreCase("[2]")){
                             name = "3. Lights WTF 1?";
-                        }else  if (name.equalsIgnoreCase("[4]")){
+                        }else  if (name.equalsIgnoreCase("[3]")){
                             name = "4. Lights WTF 2?";
-                        }else{
-                            name = "Lights Off?";
+                        }else if (name.equalsIgnoreCase("[4]")) {
+                            name = "5. Lights WTF 3?";
+                        }else  if (name.equalsIgnoreCase("[5]")) {
+                            name = "6. Lights WTF 4?";
                         }
+                        else  if (name.equalsIgnoreCase("[6]")) {
+                            name = "mmm.. Beams";
+                        }
+                        else if (name == null) {
+                            name = "sweet Beams";
+                        }
+
                         String finalName = name;
                         runOnUiThread(new Runnable() {
                             public void run() {
