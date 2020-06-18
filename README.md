@@ -16,7 +16,9 @@ Nice to Haves
 Any sort of notification for battery 
 Saving of prior connected devices
 
-To build this on your phone directly you will need to enable debugging. This has been tested to work against a mini x on a Pixel 2, Nexus 5x, and Moto X4.
+To build this on your phone directly you will need to enable debugging. This has been tested to work against a Boosted Mini x on a Pixel 2, Nexus 5x, and Moto X4.
+
+To build the APK and install you will need to self-sign and configure your phone for sideloading.
 
 Android BLE Scan and Characteristics Read/Write Example
 
