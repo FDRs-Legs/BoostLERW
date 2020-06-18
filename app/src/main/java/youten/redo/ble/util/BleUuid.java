@@ -23,7 +23,9 @@ public class BleUuid {
     public static final String SERVICE_DEVICE_INFORMATION = "0000180a-0000-1000-8000-00805f9b34fb";
     public static final String SERVICE_DEVICE_INFORMATION2 = "65a8eaa8-c61f-11e5-9912-ba0be0483c18";
     public static final String SERVICE_DEVICE_INFORMATION3 = "7dc55a86-c61f-11e5-9912-ba0be0483c18";
+    public static final String SERVICE_IMMEDIATE_ALERT = "7dc55a86-c61f-11e5-9912-ba0be0483c18";  //redundant but need to refactor
     public static final String SERVICE_DEVICE_INFORMATION4 = "00001800-0000-1000-8000-00805f9b34fb";
+    public static final String SERVICE_DEVICE_INFORMATION5 = "EA32B817-D410-42E2-848A-1218201468FC";
 
 
     public static final String CHAR_BOARD_NAME_STRING = "00002a00-0000-1000-8000-00805f9b34fb";
@@ -50,12 +52,13 @@ public class BleUuid {
     //Ride Mode
     public static final String CHAR_RIDE_MODE_STRING = "7dc55f22-c61f-11e5-9912-ba0be0483c18";
 
-    // 1802 Immediate Alert
-    public static final String SERVICE_IMMEDIATE_ALERT = "7dc55a86-c61f-11e5-9912-ba0be0483c18";
+    // Write Ride Mode
+
     public static final String CHAR_ALERT_LEVEL = "7dc55f22-c61f-11e5-9912-ba0be0483c18";
     // StickNFindではCHAR_ALERT_LEVELに0x01をWriteすると光り、0x02では音が鳴り、0x03では光って鳴る。
 
-    // 180F Battery Service
-    public static final String SERVICE_BATTERY_SERVICE = "0000180F-0000-1000-8000-00805f9b34fb";
-    public static final String CHAR_BATTERY_LEVEL = "00002a19-0000-1000-8000-00805f9b34fb";
+    // Read/Write Beams
+    public static final String CHAR_LIGHT_STATE= "EA32DCAC-D410-42E2-848A-1218201468FC";
+    public static final String CHAR_BATTERY_LEVEL = "EA32B761-D410-42E2-848A-1218201468FC";
+    public static final String BLEUUID ="";
 }

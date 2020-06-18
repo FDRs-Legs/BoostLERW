@@ -30,6 +30,7 @@ import android.widget.TextView;
 /**
  * スキャンされたBLEデバイスリストのAdapter
  */
+
 public class DeviceAdapter extends ArrayAdapter<ScannedDevice> {
     private static final String PREFIX_RSSI = "RSSI:";
     private List<ScannedDevice> mList;

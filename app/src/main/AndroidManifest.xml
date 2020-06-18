@@ -25,5 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name="youten.redo.ble.readwrite.DeviceActivity" />
+        <activity android:name="youten.redo.ble.readwrite.DeviceActivityTesting" />
     </application>
 </manifest>

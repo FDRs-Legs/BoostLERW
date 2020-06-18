@@ -3,60 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DeviceActivity">
+    tools:context=".DeviceActivityTesting">
 
     <Button
         android:id="@+id/read_board_name_button"
-        android:layout_width="237dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/read_manufacturer_name_button"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="-48dp"
-        android:layout_toEndOf="@+id/read_manufacturer_name_button"
+        android:layout_marginBottom="2dp"
         android:text="@string/read_board_name" />
+
 
     <Button
         android:id="@+id/read_light_state_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/read_manufacturer_name_button"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="58dp"
         android:text="@string/read_light_state" />
 
     <Button
         android:id="@+id/read_manufacturer_name_button"
-        android:layout_width="169dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/read_esc_firmware_button"
-        android:layout_marginBottom="2dp"
+        android:layout_above="@+id/read_serial_number_button"
+        android:layout_marginBottom="1dp"
         android:text="@string/read_manufacturer_name" />
 
     <Button
         android:id="@+id/read_serial_number_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/read_battery_type_button"
-        android:layout_marginStart="-263dp"
-        android:layout_marginEnd="-1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_toStartOf="@+id/read_battery_firmware_button"
+        android:layout_above="@+id/read_esc_firmware_button"
+        android:layout_marginBottom="-1dp"
         android:text="@string/read_serial_number" />
 
     <Button
         android:id="@+id/read_esc_firmware_button"
-        android:layout_width="119dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/read_battery_type_button"
-        android:layout_marginBottom="0dp"
+        android:layout_above="@+id/read_battery_firmware_button"
+        android:layout_marginBottom="2dp"
         android:text="@string/read_esc_firmware_number" />
 
     <Button
         android:id="@+id/read_battery_firmware_button"
-        android:layout_width="136dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/read_battery_type_button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="-1dp"
         android:layout_marginBottom="1dp"
         android:text="@string/read_battery_firmware_number" />
 
@@ -92,13 +86,13 @@
 
     <Button
         android:id="@+id/write_alert_level_button"
-        android:layout_width="237dp"
-        android:layout_height="118dp"
+        android:layout_width="197dp"
+        android:layout_height="115dp"
         android:layout_above="@+id/read_ride_state_button"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="3dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/write_eco_level_button"
         android:text="@string/write_alert_level" />
 
@@ -109,7 +103,7 @@
         android:layout_above="@+id/read_ride_state_button"
         android:layout_alignParentStart="true"
         android:layout_marginStart="1dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="-1dp"
         android:text="@string/write_eco_level" />
 
     <Button

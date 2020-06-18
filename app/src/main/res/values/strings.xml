@@ -9,6 +9,7 @@
     <string name="action_stop">STOP</string>
     <!-- Device -->
     <string name="read_board_name">Read Board Name</string>
+    <string name="read_light_state">Read Light State</string>
     <string name="read_manufacturer_name">Read Manufacturer Name</string>
     <string name="read_serial_number">Read Serial Number</string>
     <string name="read_esc_firmware_number">Read Firmware Number</string>
@@ -20,4 +21,5 @@
     <string name="write_eco_level">Write Eco Level</string>
     <string name="read_odometer_number">Odometer</string>
     <string name="read_ride_state_number">Ride Mode </string>
+    <string name="testing_name">Test area</string>
 </resources>
