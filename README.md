@@ -9,14 +9,18 @@ BLERW
 Project built in Android Studio.
 
 Known Issues:
+
 View breaks when changing from portrait. Thankfully this helps reset the BLE connection so its a feature
+
 My odometer does not jive with other app readings. Odometer field currently has the hex and decimal revolution counters for debugging.
 
-Nice to Haves
+Nice to Haves:
+
 Any sort of notification for battery 
 Saving of prior connected devices
 
-To build this on your phone directly you will need to enable debugging. This has been tested to work against a Boosted Mini x on a Pixel 2, Nexus 5x, and Moto X4.
+To build this on your phone directly you will need to enable debugging. 
+This has been tested to work against a Boosted Mini x on a Pixel 2, Nexus 5x, and Moto X4.
 
 To build the APK and install you will need to self-sign and configure your phone for sideloading.
 
