@@ -8,6 +8,8 @@ BLERW
 
 Project built in Android Studio.
 
+You can side load th 6/18/2020 apk from the zip file app-debug.zip
+
 Known Issues:
 
 View breaks when changing from portrait. Thankfully this helps reset the BLE connection if it seems to hang while reading initial data.
