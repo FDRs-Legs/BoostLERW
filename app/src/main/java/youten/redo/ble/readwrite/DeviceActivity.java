@@ -387,58 +387,55 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
 
 //final String name2 = characteristic.getStringValue(0);
-                    byte[] temp3 = characteristic.getValue();
-                    int size = temp3.length;
+                    byte[] ascendingOdometer = characteristic.getValue();
+                    int size = ascendingOdometer.length;
                     int index = size - 1;
                     int i;
 
-                    //String odotemp1 = toHex(temp3);
-                    byte[] temp = new byte[size-1];
-                    //for(i = 0; i <size; i++){
-                    //		temp[i] = temp3 [index-i];
+
+                    byte[] formattedOdometer = new byte[size];
+                    //for(i = 0; i <index; i++){
+                    //    formattedOdometer[i] = ascendingOdometer [(index-1)-i];
                     //}
-  /*
-                    byte[] odometer1 = new byte[1];
-                    odometer1[0] = temp3[0];
-                    byte[] odometer2 = new byte[1];
-                    odometer2[0] = temp3[3];
-                    byte[] odometer3 = new byte[1];
-                    odometer3[0] = temp3[2];
-                    byte[] odometer4 = new byte[1];
-                    odometer4[0] = temp3[1];
-*/
+
                     //temp[0] = temp3[3];
-                    temp[0] = temp3[2];
-                    temp[1] = temp3[1];
-                    temp[2] = temp3[0];
-                    //temp[0] = (byte) unsignedToBytes(temp[0]);
-                    //temp[1] = (byte) unsignedToBytes(temp[1]);
-                    //temp[2] = (byte) unsignedToBytes(temp[2]);
+
+                    formattedOdometer[0] = ascendingOdometer[3];
+                   // formattedOdometer[0] = (byte) (formattedOdometer[0] & 0xffffffffl);
+                    formattedOdometer[1] = ascendingOdometer[2];
+                    //formattedOdometer[1] = (byte) (formattedOdometer[1] & 0xffffffffl);
+                    formattedOdometer[2] = ascendingOdometer[1];
+                    formattedOdometer[3] = ascendingOdometer[0];
+                   // formattedOdometer[2] = (byte) (formattedOdometer[2] & 0xffffffffl);
+                    //formattedOdometer[0] = (byte) unsignedToBytes(formattedOdometer[0]);
+                    //formattedOdometer[1] = (byte) unsignedToBytes(formattedOdometer[1]);
+                    //formattedOdometer[2] = (byte) unsignedToBytes(formattedOdometer[2]);
 
                     //temp[3] = temp3[0];
                     //temp3 = characteristic.getValue();
                     //Integer temp3 = characteristic.getIntValue(0,0);
                     //final String name2 =  name.toString();
-                    String temp2 = byteArrayToHexString(temp);
-                    //String odotemp1 = odometer4[0]+"|"+ odometer3[0] +"|"+ odometer2[0];
-                    //final String name2 = Arrays.toString(temp3);
-                    long n = Long.parseLong(String.valueOf(temp2), 16);
-                  //  long n4 = Long.parseLong(String.valueOf(odometer4[0]), 16);
-                    //long n3 = Long.parseLong(String.valueOf(odometer3[0]), 16);
-                    //long n2 = Long.parseLong(String.valueOf(odometer2[0]), 16);
-                    //long n1 = Long.parseLong(String.valueOf(odometer1[0]), 16);
-                    double no = ((n * (2 * 3.141592653589793 * 40))/1000000)-160;
-                    double no2 = ((n * (2 * 3.141592653589793 * 42.5))/1000000)-160;
-                    double no3 = ((n * (2 * 3.141592653589793 * 45))/1000000)-160;
-                 String etToll = String.format("%.2f", no);
-                    String etToll2 = String.format("%.2f", no2);
-                    String etToll3 = String.format("%.2f", no3);
-                    //Log.d("YOLO__420__XXX", String.format("%s", n));
+                    StringBuilder odometerHexString = new StringBuilder();
+                    for (byte b : formattedOdometer) {
+                        odometerHexString.append(String.format("%02X", b));
+                    }
+
+                   long odometerDecimalValue = Long.parseLong(String.valueOf(odometerHexString), 16);
+
+                    double eightyMMWheels=((2 * 3.141592653589793 * 40)/1000000) ;
+                    double eightyFiveMMWheels = ((2 * 3.141592653589793 * 42.5)/1000000);
+                    double ninetyMMWheels = ((2 * 3.141592653589793 * 45)/1000000);
+
+                    double odometer80 = ((odometerDecimalValue * eightyMMWheels)/1000000);
+                    double odometer85 = ((odometerDecimalValue * (2 * 3.141592653589793 * 45)));
+                    double odometer90 = ((odometerDecimalValue * (2 * 3.141592653589793 * 45))/1000000);
+                 String etToll = String.format("%.2f", odometer80);
+                    String etToll2 = String.format("%.2f", odometer85);
+                    String etToll3 = String.format("%.2f", odometer90);
+                    long finalOdometerDecimalValue = odometerDecimalValue;
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            //mReadOdometerButton.setText(no + " km @ 80mm" + odometer4[0]+temp[0]+"|"+ odometer3[0] +temp[1]+"|"+ odometer2[0]+temp[2] +"|"+odometer1[0] +"   "+odotemp1);
-                            //mReadOdometerButton.setText(etToll + " km @ 80mm usig:" + temp3[0] + "|" + temp3[1] + "|" + temp3[2] + "|" + temp3[3]+"|||"+  "|" + temp[2] + "|" + temp[1] + "|"+ temp[0] + "|" +" HEX: " + temp2);
-                            mReadOdometerButton.setText( etToll+" km @ 80mm"+'\n' + etToll2+" km @ 85mm"+'\n' + etToll3+" km @ 90mm"  );
+                             mReadOdometerButton.setText( odometerHexString+"   "+etToll+" km @ 80mm"+odometerDecimalValue );
                             setProgressBarIndeterminateVisibility(false);
                         }
 
