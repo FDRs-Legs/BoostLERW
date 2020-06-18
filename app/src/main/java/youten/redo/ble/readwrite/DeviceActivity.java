@@ -109,7 +109,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         }
 
 
-
+//determines if the Characteristic is available for the service
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             BluetoothGattCharacteristic temp;
@@ -244,7 +244,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             });
         }
 
-        ;
+       //Determines what to do with the data in the characteristic
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
@@ -368,72 +368,45 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                         ;
                     });
+                    ///Odometer calculation is a mess. Looks like the values are updated left to right and the values measured in quarter rotations
+                    //This could stand a lot of clean up and still does not jive with other apps reporting mileage
                 } else if (BleUuid.CHAR_ODOMETER_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
 
-//final String name2 = characteristic.getStringValue(0);
                     byte[] ascendingOdometer = characteristic.getValue();
                     int size = ascendingOdometer.length;
-                    int index = size - 1;
-                    int i;
-
-
-                    byte[] formattedOdometer = new byte[size];
-                    byte[] cell10s = new byte[1];
-                    byte[] cell100s = new byte[1];
-                    byte[] cell1000s = new byte[1];
-                    byte[] cell10000s = new byte[1];
 
 
 
-                    cell10000s [0]= formattedOdometer[0] = ascendingOdometer[3];
-                   // formattedOdometer[0] = (byte) (formattedOdometer[0] & 0xffffffffl);
-                    cell1000s [0]=formattedOdometer[1] = ascendingOdometer[2];
-                    //formattedOdometer[1] = (byte) (formattedOdometer[1] & 0xffffffffl);
-                    cell100s [0]=formattedOdometer[2] = ascendingOdometer[1];
-                    cell10s [0]=formattedOdometer[3] = ascendingOdometer[0];
+                    byte[] formattedRevolutions = new byte[size];
 
-
-                    String finalOdometerDecimalValue =    byteArrayToHexString(ascendingOdometer);
-                    String finalOdometerDecimalValue1 =    byteArrayToHexString(cell10s);
-                    String finalOdometerDecimalValue2 =    byteArrayToHexString(cell100s);
-                    String finalOdometerDecimalValue3 =    byteArrayToHexString(cell1000s);
-                    String finalOdometerDecimalValue4 =    byteArrayToHexString(cell10000s);
+                  formattedRevolutions[0] = ascendingOdometer[3];
+                  formattedRevolutions[1] = ascendingOdometer[2];
+                   formattedRevolutions[2] = ascendingOdometer[1];
+                    formattedRevolutions[3] = ascendingOdometer[0];
 
 
 
 
-
-                  // formattedOdometer[2] = (byte) (formattedOdometer[2] & 0xffffffffl);
-                  StringBuilder cell0String =  new StringBuilder();
-                    StringBuilder cell1String =  new StringBuilder();
-                    StringBuilder cell2String =  new StringBuilder();
-                    StringBuilder cell3String =  new StringBuilder();
-                    StringBuilder cellString =  new StringBuilder();
-
-
-                    cell0String.append(String.format("%02X", cell10s[0]));
-                    cell1String.append(String.format("%02X", cell100s[0]));
-                    cell2String.append(String.format("%02X", cell1000s[0]));
-                   cell3String.append(String.format("%02X", cell10000s[0]));
-
-                   cellString.append(cell3String);
-                    cellString.append(cell2String);
-                    cellString.append(cell1String);
-                    cellString.append(cell0String);
-
-                    int odometerDecimalValue=Integer.parseInt(String.valueOf(cellString), 16);
+                   StringBuilder hexFormattedRevolutions =  new StringBuilder();
 
 
 
+                   for( byte b : formattedRevolutions)
+                      hexFormattedRevolutions.append(String.format("%02X", b));
 
-                    double eightyMMWheels=((2 * 3.141592653589793 * 40)/1000000) ;
-                    double eightyFiveMMWheels = ((2 * 3.141592653589793 * 42.5)/1000000);
-                    double ninetyMMWheels = ((2 * 3.141592653589793 * 45)/1000000);
-//odometerDecimalValue = asun(odometerDecimalValue2);
-                    double odometer80 = ((odometerDecimalValue * eightyMMWheels))/4;
-                   double odometer85 = ((odometerDecimalValue * eightyFiveMMWheels))/4;
-                    double odometer90 = ((odometerDecimalValue * ninetyMMWheels)/4);
+                    int odometerDecimalValue=Integer.parseInt(String.valueOf(hexFormattedRevolutions), 16);
+
+
+                    double eightyMMWheels=((.5 * Math.PI * 40)/1000000) ;
+                    double eightyFiveMMWheels = ((.5 * Math.PI * 42.5)/1000000);
+                    double ninetyMMWheels = ((.5 * Math.PI * 45)/1000000);
+
+                    double odometer80 = ((odometerDecimalValue * eightyMMWheels));
+                   double odometer85 = ((odometerDecimalValue * eightyFiveMMWheels));
+                    double odometer90 = ((odometerDecimalValue * ninetyMMWheels));
+
+
                  String output80 = String.format("%.2f", odometer80);
                     String output85 = String.format("%.2f", odometer85);
                     String output90 = String.format("%.2f", odometer90);
@@ -442,12 +415,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                   //  long finalOdometerDecimalValue1 = odometerDecimalValue2;
                     runOnUiThread(new Runnable() {
                         public void run() {
-                             mReadOdometerButton.setText( output80+" km @ 80mm\n"+output85+" km @ 85mm\n"+output90+" km @ 90m");
-//                           mReadOdometerButton.setText( finalOdometerDecimalValue1+"    cells2 "+finalOdometerDecimalValue2+"   cell3 "+finalOdometerDecimalValue3+" cell 4  "+finalOdometerDecimalValue4+"  formatted  "+ OdometerDecimalValue);
-                           // mReadOdometerButton.setText( bi1+"    cells2 "+bi2+"   cell3 "+bi3+" cell 4  "+bi4+"  formatted  ");
-                            //mReadOdometerButton.setText( cell3String +":"+cell2String +":"+cell1String +":"+cell0String +"  formatted  "+decimal);
-
-
+                             mReadOdometerButton.setText( output80+" km @ 80mm\n"+output85+" km @ 85mm\n"+output90+" km @ 90mm");
 
                         }
 
