@@ -17,7 +17,7 @@ View breaks when changing from portrait. Thankfully this helps reset the BLE con
 Surely this is a feature
 
 My odometer does not jive with other app readings. Only calculated in kilometers like a civilized person.
-Odometer is calculated from 3 signed bytes converted to a hexstring before converting to decimal and diving by 4 (I am pretty sure it reports quarter revolutions) and multiplied by 2piR (2xR=80,85,90 millimeter hardcoded) then divided by a ratio that is stumping me. It should be 56/17 (3.3) however it seems to be closer to 4.32
+Odometer is calculated from 3 signed bytes converted to a hexstring before converting to decimal multiplied by 2piR (2xR=80,85,90 millimeter hardcoded) then divided by a ratio that is stumping me. It should be 56/17 (3.3) however it seems to be closer to 4.32
 
 Nice to Haves:
 
