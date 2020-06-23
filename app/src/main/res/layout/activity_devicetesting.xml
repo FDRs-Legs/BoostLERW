@@ -49,25 +49,25 @@
 
     <Button
         android:id="@+id/read_battery_state_button"
-        android:layout_width="204dp"
-        android:layout_height="76dp"
+        android:layout_width="207dp"
+        android:layout_height="77dp"
 
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-3dp"
+        android:layout_marginStart="0dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/read_battery_level_button"
         android:text="@string/read_battery_state_number" />
 
     <Button
         android:id="@+id/read_battery_level_button"
-        android:layout_width="207dp"
-        android:layout_height="76dp"
+        android:layout_width="205dp"
+        android:layout_height="77dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-5dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
         android:text="@string/read_battery_level_number" />
 
     <Button

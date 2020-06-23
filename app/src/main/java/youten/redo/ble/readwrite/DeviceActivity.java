@@ -501,14 +501,24 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                    double odometer85 = ((odometerDecimalValue * eightyFiveMMWheels)/4.32);
                     double odometer90 = ((odometerDecimalValue * ninetyMMWheels)/4.32);
 
+                    double odometer80inMiles = odometer80 /1.6;
+                    double odometer85inMiles = odometer85 /1.6;
+                    double odometer90inMiles = odometer90 /1.6;
 
-                 @SuppressLint("DefaultLocale") String output80 = String.format("%.2f", odometer80);
-                    @SuppressLint("DefaultLocale") String output85 = String.format("%.2f", odometer85);
-                    @SuppressLint("DefaultLocale") String output90 = String.format("%.2f", odometer90);
+
+                 String output80 = String.format("%.2f", odometer80);
+               String output85 = String.format("%.2f", odometer85);
+                String output90 = String.format("%.2f", odometer90);
+                    output80 += " km | " + String.format("%.2f", odometer80inMiles) + " miles ";
+                    output85 += " km | " + String.format("%.2f", odometer85inMiles) + " miles ";
+                    output90 += " km | " + String.format("%.2f", odometer90inMiles) + " miles ";
                   //  String finalOdometerDecimalValue = odometerDecimalValue;
 
                   //  long finalOdometerDecimalValue1 = odometerDecimalValue2;
-                    runOnUiThread(() -> mReadOdometerButton.setText( output80+" km @ 80mm 4.32 ratio??\n"+output85+" km @ 85mm\n"+output90+" km @ 90mm"));
+                    String finalOutput80 = output80;
+                    String finalOutput85 = output85;
+                    String finalOutput90 = output90;
+                    runOnUiThread(() -> mReadOdometerButton.setText( finalOutput80 + " @ 80mm 56T\n"+ finalOutput85 +" @ 85mm 56T\n"+ finalOutput90 +" @ 90mm 56T"));
                 } else if (BleUuid.CHAR_RIDE_MODE_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
                     //final String name = characteristic.getStringValue(0);

@@ -17,10 +17,10 @@
     <string name="read_battery_state_number">Read Batt State</string>
     <string name="read_battery_level_number">Read Batt Level</string>
     <string name="read_battery_type_number">Read Battery Type</string>
-    <string name="write_alert_level">Write Expert Level</string>
-    <string name="write_eco_level">Write Eco Level</string>
+    <string name="write_alert_level">Write Expert</string>
+    <string name="write_eco_level">Write Eco</string>
     <string name="read_odometer_number">Odometer</string>
-    <string name="read_ride_state_number">Ride Mode </string>
+    <string name="read_ride_state_number">Read Current Ride Mode </string>
     <string name="testing_name">Test area</string>
     <string name="switch_activity_name">Switch View</string>
 </resources>

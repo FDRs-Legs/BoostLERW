@@ -33,42 +33,40 @@
 
     <Button
         android:id="@+id/read_battery_state_button"
-        android:layout_width="204dp"
-        android:layout_height="76dp"
+        android:layout_width="206dp"
+        android:layout_height="73dp"
         android:layout_above="@+id/read_odometer_button"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="1dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_marginBottom="1dp"
         android:layout_toEndOf="@+id/read_battery_level_button"
         android:text="@string/read_battery_state_number" />
 
     <Button
         android:id="@+id/read_battery_level_button"
-        android:layout_width="207dp"
-        android:layout_height="76dp"
+        android:layout_width="205dp"
+        android:layout_height="74dp"
         android:layout_above="@+id/read_odometer_button"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_marginBottom="0dp"
         android:text="@string/read_battery_level_number" />
 
     <Button
         android:id="@+id/write_alert_level_button"
-        android:layout_width="237dp"
-        android:layout_height="118dp"
+        android:layout_width="262dp"
+        android:layout_height="123dp"
         android:layout_above="@+id/read_ride_state_button"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="-1dp"
-        android:layout_toEndOf="@+id/write_eco_level_button"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="0dp"
         android:text="@string/write_alert_level" />
 
     <Button
         android:id="@+id/write_eco_level_button"
-        android:layout_width="171dp"
-        android:layout_height="117dp"
+        android:layout_width="147dp"
+        android:layout_height="123dp"
         android:layout_above="@+id/read_ride_state_button"
         android:layout_alignParentStart="true"
         android:layout_marginStart="1dp"
@@ -78,9 +76,9 @@
     <Button
         android:id="@+id/read_odometer_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/write_alert_level_button"
-        android:layout_marginBottom="1dp"
+        android:layout_height="89dp"
+        android:layout_above="@+id/read_ride_state_button"
+        android:layout_marginBottom="126dp"
         android:text="@string/read_odometer_number" />
 
     <Button

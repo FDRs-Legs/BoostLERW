@@ -301,7 +301,7 @@ public class DeviceActivityTesting extends Activity implements View.OnClickListe
                     });
                 } else if (BleUuid.CHAR_BATTERY_FIRMWARE_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    //final String name = characteristic.getStringValue(0);
+
                     byte[] temp3 = characteristic.getValue();
                     final String name = byteArrayToHexString(temp3);
                     runOnUiThread(new Runnable() {
