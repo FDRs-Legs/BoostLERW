@@ -22,4 +22,5 @@
     <string name="read_odometer_number">Odometer</string>
     <string name="read_ride_state_number">Ride Mode </string>
     <string name="testing_name">Test area</string>
+    <string name="switch_activity_name">Switch View</string>
 </resources>
