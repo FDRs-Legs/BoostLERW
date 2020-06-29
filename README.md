@@ -8,8 +8,8 @@ BLERW
 
 Project built in Android Studio.
 
-You can side load the 6/24/2020 apk from the zip file app-debug.zip
-https://filebin.net/d42wobkhynne77i4/app-debug.zip?t=pnwnvc35
+APK can now be downloaded from the project main. Will try to maintain this link.
+https://github.com/FDRs-Legs/BoostLERW/blob/master/app-debug_0-0-1.zip
 
 Known Issues:
 
