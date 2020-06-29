@@ -217,10 +217,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     });
                     mWriteToggleLightButton.setTag(service
                             .getCharacteristic(UUID
-                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
+                                    .fromString(BleUuid.CHAR_LIGHT_STATE)));
                     mWrtieLightBrightSeeker.setTag(service
                             .getCharacteristic(UUID
-                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
+                                    .fromString(BleUuid.CHAR_LIGHT_BRIGHT_LEVEL)));
                 }
                 if (BleUuid.SERVICE_DEVICE_INFORMATION2.equalsIgnoreCase(service
                         .getUuid().toString())) {

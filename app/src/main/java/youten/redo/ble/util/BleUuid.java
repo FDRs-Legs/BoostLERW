@@ -59,6 +59,6 @@ public class BleUuid {
 
     // Read/Write Beams
     public static final String CHAR_LIGHT_STATE= "EA32DCAC-D410-42E2-848A-1218201468FC";
-    public static final String CHAR_BATTERY_LEVEL = "EA32B761-D410-42E2-848A-1218201468FC";
+    public static final String CHAR_LIGHT_BRIGHT_LEVEL = "EA326B96-D410-42E2-848A-1218201468FC";
 
 }

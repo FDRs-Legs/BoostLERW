@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DeviceActivity">
+    tools:context=".DeviceActivity"
+    android:versionCode="100001"
+    android:versionName="0.0.1">
 
 
     <Button
