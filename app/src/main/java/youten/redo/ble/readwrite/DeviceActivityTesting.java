@@ -252,8 +252,11 @@ public class DeviceActivityTesting extends Activity implements View.OnClickListe
                     String name2 = null;
                     if (Arrays.toString(temp3).equalsIgnoreCase("[2]"))
                         name2 = "XR";
+                    else if (Arrays.toString(temp3).equalsIgnoreCase("[1]"))
+                        name2 = "SR";
                     else
-                        name2 = "Standard";
+                        name2 =  "No Battery";
+
                     final String name = name2;
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -288,7 +291,7 @@ public class DeviceActivityTesting extends Activity implements View.OnClickListe
                     byte[] temp3 = characteristic.getValue();
                     //final String name = characteristic.getStringValue(0);
                     final String name = Arrays.toString(temp3);
-                    //Log.d("YOLO__420__XXX", String.format("%s", Arrays.toString(temp3)));
+
 
 
                     runOnUiThread(new Runnable() {

@@ -36,7 +36,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Toast;
+
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -49,6 +53,7 @@ import youten.redo.ble.util.BleUuid;
  */
 public class DeviceActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "BLEDevice";
+
 
     public static final String EXTRA_BLUETOOTH_DEVICE = "BT_DEVICE";
     private BluetoothAdapter mBTAdapter;
@@ -70,7 +75,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     private Button mWriteEcoLevelButton;
     private Button mWriteAlertLevelButton;
     private Button mSwitchActivity;
-
+    private Button mWriteToggleLightButton;
+   private SeekBar mWrtieLightBrightSeeker;
 
     private final BluetoothGattCallback mGattcallback = new BluetoothGattCallback() {
         @Override
@@ -98,6 +104,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     mReadBatteryLevelButton.setEnabled(false);
                     mReadOdometerButton.setEnabled(false);
                     mReadRideStateButton.setEnabled(false);
+                    mWriteToggleLightButton.setEnabled(false);
+                    mWrtieLightBrightSeeker.setEnabled(false);
+
 
                 });
             }
@@ -191,9 +200,27 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         public void run() {
                             mReadLightState.setEnabled(true);
 
+
                         }
 
                     });
+                }
+                if (BleUuid.SERVICE_DEVICE_INFORMATION5.equalsIgnoreCase(service
+                        .getUuid().toString())) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            mWriteToggleLightButton.setEnabled(true);
+                            mWrtieLightBrightSeeker.setEnabled(true);
+                        }
+
+
+                    });
+                    mWriteToggleLightButton.setTag(service
+                            .getCharacteristic(UUID
+                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
+                    mWrtieLightBrightSeeker.setTag(service
+                            .getCharacteristic(UUID
+                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
                 }
                 if (BleUuid.SERVICE_DEVICE_INFORMATION2.equalsIgnoreCase(service
                         .getUuid().toString())) {
@@ -270,10 +297,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                          BluetoothGattCharacteristic characteristic, int status) {
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                ///////////////////////////////////////////////////////////////////////////////////
+                /*//////////////////////////////////////////////////////////////////////////////////
                 //                  Read value export for described characteristic
                 //
-                //////////////////////////////////////////////////////////////////////////////
+                *//////////////////////////////////////////////////////////////////////////////
 /*
                 if (BleUuid.CHAR_MANUFACTURER_NAME_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
@@ -388,12 +415,12 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         }else  if (name.equalsIgnoreCase("[3]")){
                             name = "4. Lights WTF 2?";
                         }else if (name.equalsIgnoreCase("[4]")) {
-                            name = "5. Lights WTF 3?";
+                            name = "5. Headlights On";
                         }else  if (name.equalsIgnoreCase("[5]")) {
-                            name = "6. Lights WTF 4?";
+                            name = "6. Headlights Off ";
                         }
                         else  if (name.equalsIgnoreCase("[6]")) {
-                            name = "mmm.. Beams";
+                            name = "No Beams for you!";
                         }
                         else if (name == null) {
                             name = "sweet Beams";
@@ -478,7 +505,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     formattedRevolutions[0] = formattedRevolutions[1];
                     formattedRevolutions[1] = formattedRevolutions[2];
                     formattedRevolutions[2] = formattedRevolutions[0];
-                    formattedRevolutions[0] = 0;   // should you ever need to fill this value, you will have travelled 3,035,930 kilometers or 1,886,439 miles
+                    formattedRevolutions[0] = 0;   // should you ever need to fill this value, you will have travelled over 3,000,000 kilometers or 1,500,000 miles
 
 
 
@@ -501,17 +528,15 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                    double odometer85 = ((odometerDecimalValue * eightyFiveMMWheels)/4.32);
                     double odometer90 = ((odometerDecimalValue * ninetyMMWheels)/4.32);
 
-                    double odometer80inMiles = odometer80 /1.6;
-                    double odometer85inMiles = odometer85 /1.6;
-                    double odometer90inMiles = odometer90 /1.6;
+                    double odometer80inMiles = odometer80 /1.60934;
+                    double odometer85inMiles = odometer85 /1.60934;
+                    double odometer90inMiles = odometer90 /1.60934;
 
 
-                 String output80 = String.format("%.2f", odometer80);
-               String output85 = String.format("%.2f", odometer85);
-                String output90 = String.format("%.2f", odometer90);
-                    output80 += " km | " + String.format("%.2f", odometer80inMiles) + " miles ";
-                    output85 += " km | " + String.format("%.2f", odometer85inMiles) + " miles ";
-                    output90 += " km | " + String.format("%.2f", odometer90inMiles) + " miles ";
+                 String output80 = String.format("%.2f", odometer80) + " km | " + String.format("%.2f", odometer80inMiles) + " miles ";
+               String output85 = String.format("%.2f", odometer85) + " km | " + String.format("%.2f", odometer85inMiles) + " miles ";
+                String output90 = String.format("%.2f", odometer90) + " km | " + String.format("%.2f", odometer90inMiles) + " miles ";
+
                   //  String finalOdometerDecimalValue = odometerDecimalValue;
 
                   //  long finalOdometerDecimalValue1 = odometerDecimalValue2;
@@ -591,6 +616,41 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         mReadOdometerButton.setOnClickListener(this);
         mReadRideStateButton = findViewById(R.id.read_ride_state_button);
         mReadRideStateButton.setOnClickListener(this);
+        mWriteToggleLightButton = findViewById(R.id.write_toggle_light_button);
+        mWriteToggleLightButton.setOnClickListener(this);
+       mWrtieLightBrightSeeker = findViewById(R.id.read_light_bright_state);
+       mWrtieLightBrightSeeker.setMax(100);
+
+
+        mWrtieLightBrightSeeker .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChangedValue = 0;
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressChangedValue = progress;
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                if ((mWrtieLightBrightSeeker.getTag() != null)
+                        && (mWrtieLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
+                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWrtieLightBrightSeeker.getTag();
+
+                    ByteBuffer b = ByteBuffer.allocate(4);
+                    b.putInt(progressChangedValue);
+
+                    ch.setValue(b.array());
+                    if (mConnGatt.writeCharacteristic(ch)) {
+                        setProgressBarIndeterminateVisibility(true);
+                    }
+                }
+
+            }
+        });
+
 
     }
 
@@ -724,7 +784,23 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 }
             }
 
-        }else if (v.getId() == R.id.write_eco_level_button) {
+        }else if (v.getId() == R.id.write_toggle_light_button) {
+            if ((v.getTag() != null)
+                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+
+                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
+                        .getTag();
+                String checkState = ch.getStringValue(0);
+                if(checkState.equals("[5]"))
+                ch.setValue(new byte[]{(byte) 0x04});
+              //  else if(checkState.equals("[4]"))    was starting to refine toggle but testing is limited. Give me beams
+                else
+                    ch.setValue(new byte[]{(byte) 0x05});
+                if (mConnGatt.writeCharacteristic(ch)) {
+                    setProgressBarIndeterminateVisibility(true);
+                }
+            }
+        } else if (v.getId() == R.id.write_eco_level_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v

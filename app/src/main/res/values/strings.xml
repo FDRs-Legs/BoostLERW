@@ -23,4 +23,6 @@
     <string name="read_ride_state_number">Read Current Ride Mode </string>
     <string name="testing_name">Test area</string>
     <string name="switch_activity_name">Switch View</string>
+    <string name="toggle_light_state_name">Headlight Toggle</string>
+
 </resources>

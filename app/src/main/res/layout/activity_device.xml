@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/read_light_state_button"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="148dp"
         android:text="@string/switch_activity_name" />
 
     <Button
@@ -32,6 +32,14 @@
         android:text="@string/read_light_state" />
 
     <Button
+        android:id="@+id/write_toggle_light_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/read_light_state_button"
+        android:layout_marginBottom="2dp"
+        android:text="@string/toggle_light_state_name" />
+
+    <Button
         android:id="@+id/read_battery_state_button"
         android:layout_width="206dp"
         android:layout_height="73dp"
@@ -42,6 +50,15 @@
         android:layout_marginBottom="1dp"
         android:layout_toEndOf="@+id/read_battery_level_button"
         android:text="@string/read_battery_state_number" />
+
+    <SeekBar
+        android:id="@+id/read_light_bright_state"
+        android:layout_width="match_parent"
+        android:layout_height="94dp"
+        android:layout_above="@+id/write_toggle_light_button"
+        android:layout_marginBottom="0dp"
+        android:progress="50"
+        android:progressDrawable="@drawable/custom_progress"/>
 
     <Button
         android:id="@+id/read_battery_level_button"
