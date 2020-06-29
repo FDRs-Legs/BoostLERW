@@ -9,7 +9,7 @@ BLERW
 Project built in Android Studio.
 
 APK can now be downloaded from the project main. Will try to maintain this link.
-https://github.com/FDRs-Legs/BoostLERW/blob/master/app-debug_0-0-1.zip
+(app-debug_0-0-2.zip)
 
 Known Issues:
 
