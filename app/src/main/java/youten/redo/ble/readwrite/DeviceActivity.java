@@ -194,34 +194,25 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     mReadLightState
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_STATE)));
-
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadLightState.setEnabled(true);
-
-
-                        }
-
-                    });
-                }
-                if (BleUuid.SERVICE_DEVICE_INFORMATION5.equalsIgnoreCase(service
-                        .getUuid().toString())) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mWriteToggleLightButton.setEnabled(true);
-                            mWrtieLightBrightSeeker.setEnabled(true);
-                        }
-
-
-                    });
                     mWriteToggleLightButton.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_STATE)));
                     mWrtieLightBrightSeeker.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_BRIGHT_LEVEL)));
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            mReadLightState.setEnabled(true);
+                            mWriteToggleLightButton.setEnabled(true);
+                            mWrtieLightBrightSeeker.setEnabled(true);
+
+
+                        }
+
+                    });
                 }
+
                 if (BleUuid.SERVICE_DEVICE_INFORMATION2.equalsIgnoreCase(service
                         .getUuid().toString())) {
                    // mReadBatteryFirmwareButton
@@ -407,9 +398,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         //final String name = characteristic.getStringValue(0);
                         String name = Arrays.toString(temp3);
                         if (name.equalsIgnoreCase("[0]")) {
-                            name = "1. Lights Off?";
+                            name = "1. Lights Off";
                         } else  if (name.equalsIgnoreCase("[1]")){
-                            name = "2. Lights Blink?";
+                            name = "2. Lights On";
                         }else  if (name.equalsIgnoreCase("[2]")){
                             name = "3. Lights WTF 1?";
                         }else  if (name.equalsIgnoreCase("[3]")){
@@ -630,7 +621,26 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+
+
+                if ((mWrtieLightBrightSeeker.getTag() != null)
+                        && (mWrtieLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
+                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWrtieLightBrightSeeker.getTag();
+
+
+                    StringBuilder hexFormattedState =  new StringBuilder();
+
+
+
+
+                    ByteBuffer b = ByteBuffer.allocate(4);
+                    b.putInt(progressChangedValue);
+                    ch.setValue(new byte[]{(byte) progressChangedValue});
+                    if (mConnGatt.writeCharacteristic(ch)) {
+                        setProgressBarIndeterminateVisibility(true);
+                    }
+                }
+
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -638,11 +648,18 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 if ((mWrtieLightBrightSeeker.getTag() != null)
                         && (mWrtieLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
                     BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWrtieLightBrightSeeker.getTag();
+Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
+
+
+
+                    StringBuilder hexFormattedState =  new StringBuilder();
+
+
+
 
                     ByteBuffer b = ByteBuffer.allocate(4);
                     b.putInt(progressChangedValue);
-
-                    ch.setValue(b.array());
+                    ch.setValue(new byte[]{(byte) progressChangedValue});
                     if (mConnGatt.writeCharacteristic(ch)) {
                         setProgressBarIndeterminateVisibility(true);
                     }
@@ -785,38 +802,76 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             }
 
         }else if (v.getId() == R.id.write_toggle_light_button) {
+
+            if ((v.getTag() != null)
+                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+                BluetoothGattCharacteristic init =(BluetoothGattCharacteristic) mReadLightState.getTag();
+                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
+                        .getTag();
+
+//mConnGatt.readCharacteristic(init);
+                StringBuilder hexFormattedState = new StringBuilder();
+
+
+                byte[] checkState = ch.getValue();
+                if (checkState != null) {
+
+
+                    for (byte b : checkState)
+                        hexFormattedState.append(String.format("%02X", b));
+
+
+                }
+                else{
+
+                    ((BluetoothGattCharacteristic) mReadLightState.getTag()).getValue();
+                }
+
+
+
+                    if (String.valueOf(hexFormattedState).equals("01")) {
+
+                        ch.setValue(new byte[]{(byte) 0x02});
+
+                    }
+                    else if (String.valueOf(hexFormattedState).equals("02")) {
+
+                        ch.setValue(new byte[]{(byte) 0x01});
+                    }
+                    else if (String.valueOf(hexFormattedState).equals("00")) {
+
+                        ch.getService().getCharacteristic(UUID.fromString(BleUuid.CHAR_LIGHT_STATE));
+                        ch.setValue(new byte[]{(byte) 0x01});
+                    }
+                    if (mConnGatt.writeCharacteristic(ch)) {
+                        setProgressBarIndeterminateVisibility(true);
+                    }
+                }
+
+        } else if (v.getId() == R.id.write_eco_level_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
 
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
                         .getTag();
-                String checkState = ch.getStringValue(0);
-                if(checkState.equals("[5]"))
-                ch.setValue(new byte[]{(byte) 0x04});
-              //  else if(checkState.equals("[4]"))    was starting to refine toggle but testing is limited. Give me beams
-                else
-                    ch.setValue(new byte[]{(byte) 0x05});
-                if (mConnGatt.writeCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-        } else if (v.getId() == R.id.write_eco_level_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
                 ch.setValue(new byte[]{(byte) 0x01});
+
+
                 if (mConnGatt.writeCharacteristic(ch)) {
+
                     setProgressBarIndeterminateVisibility(true);
                 }
             }
         } else if (v.getId() == R.id.write_alert_level_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
                         .getTag();
                 ch.setValue(new byte[]{(byte) 0x02});
+
                 if (mConnGatt.writeCharacteristic(ch)) {
+
                     setProgressBarIndeterminateVisibility(true);
                 }
             }
@@ -887,6 +942,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         mReadBatteryLevelButton.setEnabled(false);
         mReadRideStateButton.setEnabled(false);
         mReadOdometerButton.setEnabled(false);
+        mWriteToggleLightButton.setEnabled(false);
 
         // connect to Gatt
         if ((mConnGatt == null)
