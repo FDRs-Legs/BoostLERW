@@ -15,25 +15,56 @@
         android:background="#d7d7d7"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/read_board_name_button"
-            style="@style/Widget.AppCompat.Button.Small"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="99dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            android:layout_marginStart="0dp"
-            android:text="@string/read_board_name"
-            android:textSize="24sp" />
+            <Button
+                android:id="@+id/read_board_name_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="285dp"
+                android:layout_height="99dp"
+
+                android:layout_marginStart="0dp"
+                android:text="@string/read_board_name"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/update_all_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_autorenew_black_48dp"
+                android:paddingStart="40dp"
+                android:text="@string/update_activities_id"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/read_odometer_button"
-            style="@style/Widget.AppCompat.Button"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
-            android:layout_height="97dp"
+            android:layout_height="82dp"
             android:drawableLeft="@android:drawable/ic_menu_sort_by_size"
-            android:gravity="center_horizontal|left"
+            android:gravity="center|center_horizontal|left|center_vertical"
             android:text="@string/read_odometer_number"
             android:textAlignment="gravity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/switch_activity_id"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:layout_marginTop="50dp"
+            android:drawableLeft="@drawable/ic_build_black_48dp"
+            android:paddingLeft="10dp"
+            android:text="@string/switch_activity_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="24sp" />
 
         <TextView
@@ -59,7 +90,7 @@
             <Button
                 android:id="@+id/read_battery_level_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="204dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_battery_60_black_48dp"
                 android:text="@string/read_battery_level_number"
@@ -69,7 +100,7 @@
             <Button
                 android:id="@+id/read_battery_state_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_power_black_36dp"
                 android:text="@string/read_battery_state_number"
@@ -92,7 +123,7 @@
 
         <Button
             android:id="@+id/read_ride_state_button"
-            style="@style/Widget.AppCompat.Button.Small"
+            style="@android:style/Widget.Material.Light.Button.Toggle"
             android:layout_width="match_parent"
 
             android:layout_height="72dp"
@@ -197,18 +228,6 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="@string/toggle_light_state_name" />
-
-        <Button
-            android:id="@+id/switch_activity_id"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="match_parent"
-            android:layout_height="89dp"
-            android:layout_marginTop="50dp"
-            android:drawableLeft="@drawable/ic_build_black_48dp"
-            android:paddingLeft="10dp"
-            android:text="@string/switch_activity_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="24sp" />
 
     </LinearLayout>
 </ScrollView>

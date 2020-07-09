@@ -28,6 +28,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,8 @@ import java.util.UUID;
 import youten.redo.ble.util.BleUtil;
 import youten.redo.ble.util.BleUuid;
 
+import static youten.redo.ble.readwrite.R.drawable.ic_battery_90_black_48dp;
+
 /**
  * BLEデバイスへのconnect・Service
  * Discoveryを実施し、Characteristicsのread/writeをハンドリングするActivity
@@ -56,7 +59,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     private BluetoothDevice mDevice;
     private BluetoothGatt mConnGatt;
     private int mStatus;
-
+    private Button mReadAllStatesButton;
     private Button mReadBoardNameButton;
     private Button mReadBatteryStateButton;
     private Button mReadLightState;
@@ -84,6 +87,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 mStatus = newState;
                 runOnUiThread(() -> {
+                    mReadAllStatesButton.setEnabled(false);
                     mReadBoardNameButton.setEnabled(false);
                     mWriteTurtleLevelButton.setEnabled(false);
                     mWriteEcoLevelButton.setEnabled(false);
@@ -155,7 +159,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             mReadBoardNameButton.setEnabled(true);
-                            mReadBoardNameButton.performClick();
+                            mReadAllStatesButton.setEnabled(true);
+
 
                         }
 
@@ -281,8 +286,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     String name = Arrays.toString(temp3);
                     if (name.equalsIgnoreCase("[1]")) {
                         name = "Charging";
+                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_charging_full_black_48dp, 0, 0,0);
                     } else {
                         name = "Not Charging";
+                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_power_black_36dp, 0, 0,0);
                     }
                     String finalName = name;
                     runOnUiThread(new Runnable() {
@@ -341,15 +348,45 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                 else if (BleUuid.CHAR_BATTERY_LEVEL_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    byte[] temp3 = characteristic.getValue();
-                    //final String name = characteristic.getStringValue(0);
-                    final String name = Arrays.toString(temp3);
+                    byte[] batteryLevelByteValue = characteristic.getValue();
 
+                    String batteryLevelStringValue= Arrays.toString(batteryLevelByteValue);
 
+                   int  batteryLevelStringValueLength =  batteryLevelStringValue.length();
+                    if (batteryLevelStringValueLength == 5)
+                        batteryLevelStringValue =  batteryLevelStringValue.substring(1,4);
+                    else
+                        batteryLevelStringValue =  batteryLevelStringValue.substring(1,3);
 
-                    runOnUiThread(new Runnable() {
+final int  batteryLevelIntValue = Integer.parseInt (batteryLevelStringValue);
+Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
+      String finalBatteryLevelStringValue = batteryLevelStringValue;
+      runOnUiThread(new Runnable() {
                         public void run() {
-                            mReadBatteryLevelButton.setText(name);
+                            if(batteryLevelIntValue == 100) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_full_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>90) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_90_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>80) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_80_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>60) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_60_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>50) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_50_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>30) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_30_black_48dp, 0, 0,0);
+                            }
+                            else if(batteryLevelIntValue>20) {
+                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_20_black_48dp, 0, 0,0);
+
+                            }
+                            mReadBatteryLevelButton.setText(finalBatteryLevelStringValue);
+
                             setProgressBarIndeterminateVisibility(false);
                         }
 
@@ -455,6 +492,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_device);
 
+
+        mReadAllStatesButton= findViewById(R.id.update_all_button);
+        mReadAllStatesButton.setOnClickListener(this);
         //Activity switcher
 
         mSwitchActivity = findViewById(R.id.switch_activity_id);
@@ -623,7 +663,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic init =(BluetoothGattCharacteristic) mReadLightState.getTag();
+
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
                         .getTag();
 
@@ -685,8 +725,14 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
 
                 runOnUiThread(() -> {
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     mReadRideStateButton.performClick();
-                    mWriteTurtleLevelButton.performClick();
+
                     setProgressBarIndeterminateVisibility(false);
                 });
 
@@ -708,8 +754,14 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 if (mConnGatt.writeCharacteristic(ch)) {
 
                     runOnUiThread(() -> {
+
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                         mReadRideStateButton.performClick();
-                        mWriteEcoLevelButton.performClick();
                         setProgressBarIndeterminateVisibility(false);
                     });
 
@@ -728,9 +780,15 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 if (mConnGatt.writeCharacteristic(ch)) {
 
                     runOnUiThread(() -> {
+
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         mReadRideStateButton.performClick();
 
-                        mWriteExpertLevelButton.performClick();
+
                         setProgressBarIndeterminateVisibility(false);
                     });
 
@@ -756,19 +814,50 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             }
 
         }
-    }else if (v.getId() == R.id.switch_activity_id ) {
+    }else if (v.getId() == R.id.switch_activity_id) {
+
+        Intent intent = new Intent(v.getContext(), DeviceActivityTesting.class);
+        BluetoothDevice selectedDevice = mDevice;
+        intent.putExtra(DeviceActivityTesting.EXTRA_BLUETOOTH_DEVICE, selectedDevice);
+        startActivity(intent);
+
+    }else if (v.getId() == R.id.update_all_button) {
 
             runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
 
-                    Intent intent = new Intent(v.getContext(), DeviceActivityTesting.class);
-                    BluetoothDevice selectedDevice = mDevice;
-                    intent.putExtra(DeviceActivityTesting.EXTRA_BLUETOOTH_DEVICE, selectedDevice);
 
-                    startActivity(intent);
+                    try {
+                        mReadBatteryStateButton.performClick();
+                        Thread.sleep(500);
+                        mReadBatteryLevelButton.performClick();
+                        Thread.sleep(500);
 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    mReadLightState.performClick();
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mReadOdometerButton.performClick();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mReadRideStateButton.performClick();
+                    try {
+                        Thread.sleep(70);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mReadBoardNameButton.performClick();
                 }
             });
 
@@ -813,12 +902,16 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         mReadBoardNameButton.setEnabled(false);
         mWriteExpertLevelButton.setEnabled(false);
         mWriteEcoLevelButton.setEnabled(false);
+        mWriteTurtleLevelButton.setEnabled(false);
+        mWriteHyperLevelButton.setEnabled(false);
          mReadBatteryStateButton.setEnabled(false);
+
         mReadLightState.setEnabled(false);
         mReadBatteryLevelButton.setEnabled(false);
         mReadRideStateButton.setEnabled(false);
         mReadOdometerButton.setEnabled(false);
         mWriteToggleLightButton.setEnabled(false);
+        mReadAllStatesButton.setEnabled(false);
 
         // connect to Gatt
         if ((mConnGatt == null)

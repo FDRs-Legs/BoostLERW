@@ -8,8 +8,8 @@
     <string name="action_scan">SCAN</string>
     <string name="action_stop">STOP</string>
     <!-- Device -->
-    <string name="read_board_name">Read Board Name</string>
-    <string name="read_light_state">Read Light State</string>
+    <string name="read_board_name">Board Name</string>
+    <string name="read_light_state">Light State</string>
     <string name="read_manufacturer_name">Read Manufacturer Name</string>
     <string name="read_serial_number">Read Serial Number</string>
     <string name="read_esc_firmware_number">Read Firmware Number</string>
@@ -22,10 +22,11 @@
     <string name="write_eco_level">Write Eco</string>
     <string name="write_turtle_level">Write Turtle</string>
     <string  name="read_odometer_number">Odometer</string>
-    <string name="read_ride_state_number">Read Current Ride Mode </string>
+    <string name="read_ride_state_number">Current Ride Mode </string>
     <string name="testing_name">Test area</string>
     <string name="switch_activity_name">Switch Activity View</string>
     <string name="toggle_light_state_name">Headlight Toggle - Tap Light State if not working</string>
 
 
+    <string name="update_activities_id" type="id">Sync</string>
 </resources>

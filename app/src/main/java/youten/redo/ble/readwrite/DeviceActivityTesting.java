@@ -468,7 +468,7 @@ public class DeviceActivityTesting extends Activity implements View.OnClickListe
             }
 
         }  else if (v.getId() == R.id.switch_activity_id) {
-            Log.d("fjdsflsjflkd", "Idid get to tetsing as well  somehow");
+
             Intent intent = new Intent(v.getContext(), DeviceActivity.class);
             BluetoothDevice selectedDevice = mDevice;
             intent.putExtra(DeviceActivity.EXTRA_BLUETOOTH_DEVICE, selectedDevice);
