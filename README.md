@@ -40,8 +40,12 @@ This has been tested to work against a Boosted Mini x on a Pixel 2, Nexus 5x, an
 Android BLE Scan and Characteristics Read/Write Example
 
 ![Figure 1 ScanActivity for BLE Scan](etc/BLERW_cap01.png) 
-![Figure 2 DeviceActivity for Read/Write Characteristics](Screenshot_20200628-201100.png)
-![Figure 2 DeviceActivity for Read/Write Characteristics](Screenshot_20200628-201129.png)
+![Figure 2 DeviceActivity for Read/Write Characteristics](Screenshot_20200709-154526.png)
+
+![Figure 3 DeviceActivity for Read/Write Characteristics](Screenshot_20200709-154201.png)
+![Figure 4 DeviceActivity for Read/Write Characteristics](Screenshot_20200709-154151.png)
+
+
 # License
 
 Apache License Version 2.0
