@@ -14,15 +14,18 @@
     <string name="read_serial_number">Read Serial Number</string>
     <string name="read_esc_firmware_number">Read Firmware Number</string>
     <string name="read_battery_firmware_number">Read Battery Firmware</string>
-    <string name="read_battery_state_number">Read Batt State</string>
-    <string name="read_battery_level_number">Read Batt Level</string>
+    <string name="read_battery_state_number">Charging State</string>
+    <string name="read_battery_level_number">Charge Level</string>
     <string name="read_battery_type_number">Read Battery Type</string>
+    <string name="write_hyper_level">Write Hyper</string>
     <string name="write_alert_level">Write Expert</string>
     <string name="write_eco_level">Write Eco</string>
-    <string name="read_odometer_number">Odometer</string>
+    <string name="write_turtle_level">Write Turtle</string>
+    <string  name="read_odometer_number">Odometer</string>
     <string name="read_ride_state_number">Read Current Ride Mode </string>
     <string name="testing_name">Test area</string>
-    <string name="switch_activity_name">Switch View</string>
-    <string name="toggle_light_state_name">Headlight Toggle</string>
+    <string name="switch_activity_name">Switch Activity View</string>
+    <string name="toggle_light_state_name">Headlight Toggle - Tap Light State if not working</string>
+
 
 </resources>

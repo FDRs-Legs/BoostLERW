@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
     compile('com.github.hotchemi:permissionsdispatcher:3.0.1') {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"

@@ -17,7 +17,6 @@ package youten.redo.ble.readwrite;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -26,8 +25,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +33,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -62,21 +58,18 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     private int mStatus;
 
     private Button mReadBoardNameButton;
-    private Button mReadManufacturerNameButton;
-    private Button mReadSerialNumberButton;
-    private Button mReadESCFirmwareButton;
     private Button mReadBatteryStateButton;
-    private Button mReadBatteryFirmwareButton;
     private Button mReadLightState;
     private Button mReadBatteryLevelButton;
-    private Button mReadBatteryTypeButton;
     private Button mReadOdometerButton;
     private Button mReadRideStateButton;
+    private Button mWriteTurtleLevelButton;
     private Button mWriteEcoLevelButton;
-    private Button mWriteAlertLevelButton;
+    private Button mWriteExpertLevelButton;
+    private Button mWriteHyperLevelButton;
     private Button mSwitchActivity;
     private Button mWriteToggleLightButton;
-   private SeekBar mWrtieLightBrightSeeker;
+   private SeekBar mWriteLightBrightSeeker;
 
     private final BluetoothGattCallback mGattcallback = new BluetoothGattCallback() {
         @Override
@@ -92,10 +85,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 mStatus = newState;
                 runOnUiThread(() -> {
                     mReadBoardNameButton.setEnabled(false);
-//                    mReadManufacturerNameButton.setEnabled(false);
-  //                  mReadSerialNumberButton.setEnabled(false);
-                    mWriteAlertLevelButton.setEnabled(false);
+                    mWriteTurtleLevelButton.setEnabled(false);
                     mWriteEcoLevelButton.setEnabled(false);
+                    mWriteExpertLevelButton.setEnabled(false);
+                    mWriteHyperLevelButton.setEnabled(false);
    //                 mReadESCFirmwareButton.setEnabled(false);
    //                 mReadBatteryFirmwareButton.setEnabled(false);
                     mReadLightState.setEnabled(false);
@@ -105,7 +98,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     mReadOdometerButton.setEnabled(false);
                     mReadRideStateButton.setEnabled(false);
                     mWriteToggleLightButton.setEnabled(false);
-                    mWrtieLightBrightSeeker.setEnabled(false);
+                    mWriteLightBrightSeeker.setEnabled(false);
 
 
                 });
@@ -133,28 +126,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             for (BluetoothGattService service : gatt.getServices()) {
                 if ((service == null) || (service.getUuid() == null)) {
                     continue;
-                }/*
-                if (BleUuid.SERVICE_DEVICE_INFORMATION.equalsIgnoreCase(service
-                        .getUuid().toString())) {
-                    mReadManufacturerNameButton
-                            .setTag(service.getCharacteristic(UUID
-                                    .fromString(BleUuid.CHAR_MANUFACTURER_NAME_STRING)));
-
-                    mReadSerialNumberButton.setTag(service.getCharacteristic(UUID
-                            .fromString(BleUuid.CHAR_SERIAL_NUMBEAR_STRING)));
-                    mReadESCFirmwareButton
-                            .setTag(service.getCharacteristic(UUID
-                                    .fromString(BleUuid.CHAR_FIRMWARE_ESC_STRING)));
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            mReadManufacturerNameButton.setEnabled(true);
-                            mReadSerialNumberButton.setEnabled(true);
-                            mReadESCFirmwareButton.setEnabled(true);
-                        }
-
-                    });
-                }*/
+                }
                 if (BleUuid.SERVICE_DEVICE_INFORMATION3.equalsIgnoreCase(service
                         .getUuid().toString())) {
                     mReadOdometerButton
@@ -183,6 +155,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             mReadBoardNameButton.setEnabled(true);
+                            mReadBoardNameButton.performClick();
 
                         }
 
@@ -197,7 +170,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     mWriteToggleLightButton.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_STATE)));
-                    mWrtieLightBrightSeeker.setTag(service
+                    mWriteLightBrightSeeker.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_BRIGHT_LEVEL)));
 
@@ -205,7 +178,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         public void run() {
                             mReadLightState.setEnabled(true);
                             mWriteToggleLightButton.setEnabled(true);
-                            mWrtieLightBrightSeeker.setEnabled(true);
+                            mWriteLightBrightSeeker.setEnabled(true);
 
 
                         }
@@ -215,28 +188,21 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                 if (BleUuid.SERVICE_DEVICE_INFORMATION2.equalsIgnoreCase(service
                         .getUuid().toString())) {
-                   // mReadBatteryFirmwareButton
-                   //         .setTag(service.getCharacteristic(UUID
-                   //                 .fromString(BleUuid.CHAR_BATTERY_FIRMWARE_STRING)));
+
                     mReadBatteryStateButton
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_BATTERY_STATE_STRING)));
-                 //   mReadBatteryTypeButton
-                 //           .setTag(service.getCharacteristic(UUID
-                 //                   .fromString(BleUuid.CHAR_BATTERY_TYPE_STRING)));
                     mReadBatteryLevelButton
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_BATTERY_LEVEL_STRING)));
                     runOnUiThread(new Runnable() {
                         public void run() {
-                          //  mReadBatteryFirmwareButton.setEnabled(true);
+
                             mReadBatteryStateButton.setEnabled(true);
-                         //   mReadBatteryTypeButton.setEnabled(true);
                             mReadBatteryLevelButton.setEnabled(true);
 
                         }
 
-                        ;
                     });
                 }
 
@@ -244,28 +210,29 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         .getUuid().toString())) {
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            mWriteTurtleLevelButton.setEnabled(true);
                             mWriteEcoLevelButton.setEnabled(true);
+                            mWriteExpertLevelButton.setEnabled(true);
+                            mWriteHyperLevelButton.setEnabled(true);
                         }
 
 
                     });
+                    mWriteTurtleLevelButton.setTag(service
+                            .getCharacteristic(UUID
+                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
                     mWriteEcoLevelButton.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_ALERT_LEVEL)));
-                }
-                if (BleUuid.SERVICE_IMMEDIATE_ALERT.equalsIgnoreCase(service
-                        .getUuid().toString())) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mWriteAlertLevelButton.setEnabled(true);
-                        }
-
-
-                    });
-                    mWriteAlertLevelButton.setTag(service
+                    mWriteExpertLevelButton.setTag(service
+                            .getCharacteristic(UUID
+                                    .fromString(BleUuid.CHAR_ALERT_LEVEL)));
+                    mWriteHyperLevelButton.setTag(service
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_ALERT_LEVEL)));
                 }
+
+
             }
 
             runOnUiThread(new Runnable() {
@@ -292,18 +259,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 //                  Read value export for described characteristic
                 //
                 *//////////////////////////////////////////////////////////////////////////////
-/*
-                if (BleUuid.CHAR_MANUFACTURER_NAME_STRING
-                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    final String name = characteristic.getStringValue(0);
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadManufacturerNameButton.setText(name);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-                    });
-                }else */if (BleUuid.CHAR_BOARD_NAME_STRING
+  if (BleUuid.CHAR_BOARD_NAME_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
                     final String name = characteristic.getStringValue(0);
 
@@ -311,56 +267,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         mReadBoardNameButton.setText(name);
                         setProgressBarIndeterminateVisibility(false);
                     });
-                }/*
-                else if (BleUuid.CHAR_SERIAL_NUMBEAR_STRING
-                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    final String name = characteristic.getStringValue(0);
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadSerialNumberButton.setText(name);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-
-                    });
-                } else if (BleUuid.CHAR_FIRMWARE_ESC_STRING
-                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    final String name = characteristic.getStringValue(0);
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadESCFirmwareButton.setText(name);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-                    });
                 }
-
-
-                ///////////////////////////////////////////////////////////////////////////////////
-                //                  Read and convert battery size XR or SR
-                //
-                //////////////////////////////////////////////////////////////////////////////
-
-                else if (BleUuid.CHAR_BATTERY_TYPE_STRING
-                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    //final String name = characteristic.getStringValue(0);
-                    byte[] temp3 = characteristic.getValue();
-                    //final String name = characteristic.getStringValue(0);
-                    String name2 = null;
-                    if (Arrays.toString(temp3).equalsIgnoreCase("[2]"))
-                        name2 = "XR";
-                    else
-                        name2 = "Standard";
-                    final String name = name2;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadBatteryTypeButton.setText(name);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-
-
-                    });
-                }*/
                 ///////////////////////////////////////////////////////////////////////////////////
                 //                  Read and convert battery charging state
                 //
@@ -414,7 +321,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                             name = "No Beams for you!";
                         }
                         else if (name == null) {
-                            name = "sweet Beams";
+                            name = "sweet Beams...";
                         }
 
                         String finalName = name;
@@ -449,27 +356,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                     });
                 }
-                ///////////////////////////////////////////////////////////////////////////////////
-                //                  Could use some formatting
-                //
-                //////////////////////////////////////////////////////////////////////////////
-/*
-                else if (BleUuid.CHAR_BATTERY_FIRMWARE_STRING
-                        .equalsIgnoreCase(characteristic.getUuid().toString())) {
-                    //final String name = characteristic.getStringValue(0);
-                    byte[] temp3 = characteristic.getValue();
-                    final String name = byteArrayToHexString(temp3);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadBatteryFirmwareButton.setText(name);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
 
-
-                    });
-                    ///Odometer calculation is weird. The ratio is 3.3 but that does not jive with real world
-                }
-*/
                 ///////////////////////////////////////////////////////////////////////////////////
                 //          read in as 3 byte signed values and converted to a hexstring prior
                 //           decimal. Then divide by 4 for a full rotation.
@@ -480,16 +367,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
 //                   characteristic.notify();
                     byte[] formattedRevolutions = characteristic.getValue();
-                    //int size = ascendingOdometer.length;
 
-
-
-                   // byte[] formattedRevolutions = new byte[size];
-
-                 // formattedRevolutions[0] = ascendingOdometer[3];
-                 // formattedRevolutions[1] = ascendingOdometer[2];
-                  // formattedRevolutions[2] = ascendingOdometer[1];
-                   // formattedRevolutions[3] = ascendingOdometer[0];
                     //reverse the order of the bytes and null the first after reordering
 
                     formattedRevolutions[3] = formattedRevolutions[0];
@@ -542,6 +420,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     //final String name = characteristic.getStringValue(0);
                     final String name;
                     String name1 = null;
+                    if (Arrays.toString(rideMode).equalsIgnoreCase("[3]"))
+                    name1 = "Hyper";
                     if (Arrays.toString(rideMode).equalsIgnoreCase("[2]"))
                         name1 = "Expert";
                     if (Arrays.toString(rideMode).equalsIgnoreCase("[1]"))
@@ -583,37 +463,31 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         mStatus = BluetoothProfile.STATE_DISCONNECTED;
         mReadBoardNameButton = findViewById(R.id.read_board_name_button);
         mReadBoardNameButton.setOnClickListener(this);
-      //  mReadManufacturerNameButton = findViewById(R.id.read_manufacturer_name_button);
-     //   mReadManufacturerNameButton.setOnClickListener(this);
-     //   mReadSerialNumberButton = findViewById(R.id.read_serial_number_button);
-     //   mReadSerialNumberButton.setOnClickListener(this);
-     //   mReadESCFirmwareButton = findViewById(R.id.read_esc_firmware_button);
-     //   mReadESCFirmwareButton.setOnClickListener(this);
-     //   mReadBatteryFirmwareButton = findViewById(R.id.read_battery_firmware_button);
-     //   mReadBatteryFirmwareButton.setOnClickListener(this);
        mReadLightState = findViewById(R.id.read_light_state_button);
        mReadLightState.setOnClickListener(this);
         mReadBatteryStateButton = findViewById(R.id.read_battery_state_button);
         mReadBatteryStateButton.setOnClickListener(this);
         mReadBatteryLevelButton = findViewById(R.id.read_battery_level_button);
         mReadBatteryLevelButton.setOnClickListener(this);
-  //      mReadBatteryTypeButton = findViewById(R.id.read_battery_type_button);
-//        mReadBatteryTypeButton.setOnClickListener(this);
+         mWriteTurtleLevelButton = findViewById(R.id.write_turtle_level_button);
+        mWriteTurtleLevelButton.setOnClickListener(this);
         mWriteEcoLevelButton = findViewById(R.id.write_eco_level_button);
         mWriteEcoLevelButton.setOnClickListener(this);
-        mWriteAlertLevelButton = findViewById(R.id.write_alert_level_button);
-        mWriteAlertLevelButton.setOnClickListener(this);
+        mWriteExpertLevelButton = findViewById(R.id.write_alert_level_button);
+        mWriteExpertLevelButton .setOnClickListener(this);
+        mWriteHyperLevelButton = findViewById(R.id.write_hyper_level_button);
+        mWriteHyperLevelButton.setOnClickListener(this);
         mReadOdometerButton = findViewById(R.id.read_odometer_button);
         mReadOdometerButton.setOnClickListener(this);
         mReadRideStateButton = findViewById(R.id.read_ride_state_button);
         mReadRideStateButton.setOnClickListener(this);
         mWriteToggleLightButton = findViewById(R.id.write_toggle_light_button);
         mWriteToggleLightButton.setOnClickListener(this);
-       mWrtieLightBrightSeeker = findViewById(R.id.read_light_bright_state);
-       mWrtieLightBrightSeeker.setMax(100);
+       mWriteLightBrightSeeker = findViewById(R.id.read_light_bright_state);
+       mWriteLightBrightSeeker.setMax(255);
 
 
-        mWrtieLightBrightSeeker .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mWriteLightBrightSeeker .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChangedValue = 0;
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -623,9 +497,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             public void onStartTrackingTouch(SeekBar seekBar) {
 
 
-                if ((mWrtieLightBrightSeeker.getTag() != null)
-                        && (mWrtieLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
-                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWrtieLightBrightSeeker.getTag();
+                if ((mWriteLightBrightSeeker.getTag() != null)
+                        && (mWriteLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
+                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWriteLightBrightSeeker.getTag();
 
 
                     StringBuilder hexFormattedState =  new StringBuilder();
@@ -645,19 +519,11 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                if ((mWrtieLightBrightSeeker.getTag() != null)
-                        && (mWrtieLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
-                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWrtieLightBrightSeeker.getTag();
-Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
+                if ((mWriteLightBrightSeeker.getTag() != null)
+                        && (mWriteLightBrightSeeker.getTag() instanceof BluetoothGattCharacteristic)) {
+                    BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) mWriteLightBrightSeeker.getTag();
 
-
-
-                    StringBuilder hexFormattedState =  new StringBuilder();
-
-
-
-
-                    ByteBuffer b = ByteBuffer.allocate(4);
+                      ByteBuffer b = ByteBuffer.allocate(4);
                     b.putInt(progressChangedValue);
                     ch.setValue(new byte[]{(byte) progressChangedValue});
                     if (mConnGatt.writeCharacteristic(ch)) {
@@ -694,7 +560,7 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
     @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
-      /*  if (v.getId() == R.id.read_manufacturer_name_button) {
+    if (v.getId() == R.id.read_board_name_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
@@ -703,35 +569,7 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
                     setProgressBarIndeterminateVisibility(true);
                 }
             }
-        } else */if (v.getId() == R.id.read_board_name_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
-                if (mConnGatt.readCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-        }/* else if (v.getId() == R.id.read_serial_number_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
-                if (mConnGatt.readCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-        } else if (v.getId() == R.id.read_esc_firmware_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
-                if (mConnGatt.readCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-
-        } */else if (v.getId() == R.id.read_battery_state_button) {
+        }else if (v.getId() == R.id.read_battery_state_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
@@ -751,27 +589,7 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
                 }
             }
 
-        } /*else if (v.getId() == R.id.read_battery_firmware_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
-                if (mConnGatt.readCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-
-        } else if (v.getId() == R.id.read_battery_type_button) {
-            if ((v.getTag() != null)
-                    && (v.getTag() instanceof BluetoothGattCharacteristic)) {
-                BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
-                        .getTag();
-                if (mConnGatt.readCharacteristic(ch)) {
-                    setProgressBarIndeterminateVisibility(true);
-                }
-            }
-
-        }*/ else if (v.getId() == R.id.read_ride_state_button) {
+        }else if (v.getId() == R.id.read_ride_state_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
                 BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
@@ -836,6 +654,10 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
                     }
                     else if (String.valueOf(hexFormattedState).equals("02")) {
 
+                        ch.setValue(new byte[]{(byte) 0x03});
+                    }
+                    else if (String.valueOf(hexFormattedState).equals("03")) {
+
                         ch.setValue(new byte[]{(byte) 0x01});
                     }
                     else if (String.valueOf(hexFormattedState).equals("00")) {
@@ -848,7 +670,33 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
                     }
                 }
 
-        } else if (v.getId() == R.id.write_eco_level_button) {
+        } else if (v.getId() == R.id.write_turtle_level_button) {
+        if ((v.getTag() != null)
+                && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+
+            BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
+                    .getTag();
+            ch.setValue(new byte[]{(byte) 0x00});
+
+
+            if (mConnGatt.writeCharacteristic(ch)) {
+
+
+
+
+                runOnUiThread(() -> {
+                    mReadRideStateButton.performClick();
+                    mWriteTurtleLevelButton.performClick();
+                    setProgressBarIndeterminateVisibility(false);
+                });
+
+
+            }
+
+
+
+        }
+    } else if (v.getId() == R.id.write_eco_level_button) {
             if ((v.getTag() != null)
                     && (v.getTag() instanceof BluetoothGattCharacteristic)) {
 
@@ -859,8 +707,15 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
 
                 if (mConnGatt.writeCharacteristic(ch)) {
 
-                    setProgressBarIndeterminateVisibility(true);
+                    runOnUiThread(() -> {
+                        mReadRideStateButton.performClick();
+                        mWriteEcoLevelButton.performClick();
+                        setProgressBarIndeterminateVisibility(false);
+                    });
+
+
                 }
+
             }
         } else if (v.getId() == R.id.write_alert_level_button) {
             if ((v.getTag() != null)
@@ -872,10 +727,36 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
 
                 if (mConnGatt.writeCharacteristic(ch)) {
 
-                    setProgressBarIndeterminateVisibility(true);
+                    runOnUiThread(() -> {
+                        mReadRideStateButton.performClick();
+
+                        mWriteExpertLevelButton.performClick();
+                        setProgressBarIndeterminateVisibility(false);
+                    });
+
+
                 }
+
             }
-        }else if (v.getId() == R.id.switch_activity_id ) {
+        }
+    else if (v.getId() == R.id.write_hyper_level_button) {
+        if ((v.getTag() != null)
+                && (v.getTag() instanceof BluetoothGattCharacteristic)) {
+
+            BluetoothGattCharacteristic ch = (BluetoothGattCharacteristic) v
+                    .getTag();
+            ch.setValue(new byte[]{(byte) 0x03});
+
+            if (mConnGatt.writeCharacteristic(ch)) {
+                runOnUiThread(() -> {
+                    mReadRideStateButton.performClick();
+                    setProgressBarIndeterminateVisibility(false);
+                });
+
+            }
+
+        }
+    }else if (v.getId() == R.id.switch_activity_id ) {
 
             runOnUiThread(new Runnable() {
 
@@ -930,15 +811,10 @@ Log.d("YOYOYOY", "what;s goign on  "+progressChangedValue);
 
         // button disable
         mReadBoardNameButton.setEnabled(false);
-       // mReadManufacturerNameButton.setEnabled(false);
-       // mReadSerialNumberButton.setEnabled(false);
-        mWriteAlertLevelButton.setEnabled(false);
+        mWriteExpertLevelButton.setEnabled(false);
         mWriteEcoLevelButton.setEnabled(false);
-       // mReadESCFirmwareButton.setEnabled(false);
-       // mReadBatteryFirmwareButton.setEnabled(false);
-        mReadBatteryStateButton.setEnabled(false);
+         mReadBatteryStateButton.setEnabled(false);
         mReadLightState.setEnabled(false);
-       // mReadBatteryTypeButton.setEnabled(false);
         mReadBatteryLevelButton.setEnabled(false);
         mReadRideStateButton.setEnabled(false);
         mReadOdometerButton.setEnabled(false);
