@@ -29,4 +29,9 @@
 
 
     <string name="update_activities_id" type="id">Sync</string>
+
+
+    <string name="battery_label">Battery</string>
+    <string name="ride_mode_label">Ride Mode</string>
+    <string name="beams_label">Beams</string>
 </resources>

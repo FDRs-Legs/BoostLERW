@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@android:style/Widget.Holo.ScrollView"
     android:layout_width="match_parent"
@@ -15,6 +14,18 @@
         android:background="#d7d7d7"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/switch_activity_id"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:layout_marginBottom="50dp"
+            android:drawableLeft="@drawable/ic_build_black_48dp"
+            android:paddingLeft="10dp"
+            android:text="@string/switch_activity_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="24sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,7 +34,7 @@
             <Button
                 android:id="@+id/read_board_name_button"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="285dp"
+                android:layout_width="270dp"
                 android:layout_height="99dp"
 
                 android:layout_marginStart="0dp"
@@ -36,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_autorenew_black_48dp"
-                android:paddingStart="40dp"
+                android:paddingStart="20dp"
                 android:text="@string/update_activities_id"
                 android:textSize="18sp" />
 
@@ -49,23 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="82dp"
             android:drawableLeft="@android:drawable/ic_menu_sort_by_size"
-            android:gravity="center|center_horizontal|left|center_vertical"
+            android:drawablePadding="20dp"
+            android:gravity="center|center_horizontal|start|center_vertical"
             android:text="@string/read_odometer_number"
             android:textAlignment="gravity"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/switch_activity_id"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="match_parent"
-            android:layout_height="89dp"
-            android:layout_marginTop="50dp"
-            android:drawableLeft="@drawable/ic_build_black_48dp"
-            android:paddingLeft="10dp"
-            android:text="@string/switch_activity_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textView"
@@ -75,7 +75,7 @@
             android:layout_gravity="center|center_vertical"
             android:background="#574CAF50"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="Battery "
+            android:text="@string/battery_label"
             android:textAlignment="gravity"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -94,6 +94,7 @@
                 android:layout_height="match_parent"
                 android:drawableStart="@drawable/ic_battery_60_black_48dp"
                 android:text="@string/read_battery_level_number"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
 
@@ -115,7 +116,7 @@
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:background="#574CAF50"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="Ride Mode"
+            android:text="@string/ride_mode_label"
             android:textAlignment="gravity"
             android:textAllCaps="false"
             android:textSize="30sp"
@@ -123,7 +124,7 @@
 
         <Button
             android:id="@+id/read_ride_state_button"
-            style="@android:style/Widget.Material.Light.Button.Toggle"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="match_parent"
 
             android:layout_height="72dp"
@@ -193,7 +194,7 @@
             android:layout_height="59dp"
             android:background="#594CAF50"
             android:gravity="center|center_horizontal|center_vertical"
-            android:text="Beams"
+            android:text="@string/beams_label"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"

@@ -140,13 +140,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_RIDE_MODE_STRING)));
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadOdometerButton.setEnabled(true);
-                            mReadRideStateButton.setEnabled(true);
-
-                        }
-
+                    runOnUiThread(() -> {
+                        mReadOdometerButton.setEnabled(true);
+                        mReadRideStateButton.setEnabled(true);
 
                     });
                 }
@@ -156,13 +152,10 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_BOARD_NAME_STRING)));
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadBoardNameButton.setEnabled(true);
-                            mReadAllStatesButton.setEnabled(true);
+                    runOnUiThread(() -> {
+                        mReadBoardNameButton.setEnabled(true);
+                        mReadAllStatesButton.setEnabled(true);
 
-
-                        }
 
                     });
                 }
@@ -179,14 +172,11 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                             .getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_LIGHT_BRIGHT_LEVEL)));
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadLightState.setEnabled(true);
-                            mWriteToggleLightButton.setEnabled(true);
-                            mWriteLightBrightSeeker.setEnabled(true);
+                    runOnUiThread(() -> {
+                        mReadLightState.setEnabled(true);
+                        mWriteToggleLightButton.setEnabled(true);
+                        mWriteLightBrightSeeker.setEnabled(true);
 
-
-                        }
 
                     });
                 }
@@ -200,28 +190,21 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     mReadBatteryLevelButton
                             .setTag(service.getCharacteristic(UUID
                                     .fromString(BleUuid.CHAR_BATTERY_LEVEL_STRING)));
-                    runOnUiThread(new Runnable() {
-                        public void run() {
+                    runOnUiThread(() -> {
 
-                            mReadBatteryStateButton.setEnabled(true);
-                            mReadBatteryLevelButton.setEnabled(true);
-
-                        }
+                        mReadBatteryStateButton.setEnabled(true);
+                        mReadBatteryLevelButton.setEnabled(true);
 
                     });
                 }
 
                 if (BleUuid.SERVICE_IMMEDIATE_ALERT.equalsIgnoreCase(service
                         .getUuid().toString())) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mWriteTurtleLevelButton.setEnabled(true);
-                            mWriteEcoLevelButton.setEnabled(true);
-                            mWriteExpertLevelButton.setEnabled(true);
-                            mWriteHyperLevelButton.setEnabled(true);
-                        }
-
-
+                    runOnUiThread(() -> {
+                        mWriteTurtleLevelButton.setEnabled(true);
+                        mWriteEcoLevelButton.setEnabled(true);
+                        mWriteExpertLevelButton.setEnabled(true);
+                        mWriteHyperLevelButton.setEnabled(true);
                     });
                     mWriteTurtleLevelButton.setTag(service
                             .getCharacteristic(UUID
@@ -240,13 +223,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
             }
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    setProgressBarIndeterminateVisibility(false);
-                }
-
-
-            });
+            runOnUiThread(() -> setProgressBarIndeterminateVisibility(false));
         }
 
        //Determines what to do with the data in the characteristic
@@ -286,19 +263,15 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     String name = Arrays.toString(temp3);
                     if (name.equalsIgnoreCase("[1]")) {
                         name = "Charging";
-                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_charging_full_black_48dp, 0, 0,0);
+                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_power_black_36dp, 0, 0,0);
                     } else {
                         name = "Not Charging";
-                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_power_black_36dp, 0, 0,0);
+                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_skateboard_1, 0, 0,0);
                     }
                     String finalName = name;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            mReadBatteryStateButton.setText(finalName);
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-
-
+                    runOnUiThread(() -> {
+                        mReadBatteryStateButton.setText(finalName);
+                        setProgressBarIndeterminateVisibility(false);
                     });
                 }
                 ///////////////////////////////////////////////////////////////////////////////////
@@ -327,18 +300,14 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                         else  if (name.equalsIgnoreCase("[6]")) {
                             name = "No Beams for you!";
                         }
-                        else if (name == null) {
+                        else  {
                             name = "sweet Beams...";
                         }
 
                         String finalName = name;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                mReadLightState.setText(finalName);
-                                setProgressBarIndeterminateVisibility(false);
-                            }
-
-
+                        runOnUiThread(() -> {
+                            mReadLightState.setText(finalName);
+                            setProgressBarIndeterminateVisibility(false);
                         });
                 }
                 ///////////////////////////////////////////////////////////////////////////////////
@@ -361,37 +330,33 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 final int  batteryLevelIntValue = Integer.parseInt (batteryLevelStringValue);
 Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
       String finalBatteryLevelStringValue = batteryLevelStringValue;
-      runOnUiThread(new Runnable() {
-                        public void run() {
-                            if(batteryLevelIntValue == 100) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_full_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>90) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_90_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>80) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_80_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>60) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_60_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>50) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_50_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>30) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_30_black_48dp, 0, 0,0);
-                            }
-                            else if(batteryLevelIntValue>20) {
-                                mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_20_black_48dp, 0, 0,0);
+      runOnUiThread(() -> {
+          if(batteryLevelIntValue == 100) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_full_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>90) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_90_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>80) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_80_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>60) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_60_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>50) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_50_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>30) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_30_black_48dp, 0, 0,0);
+          }
+          else if(batteryLevelIntValue>20) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_20_black_48dp, 0, 0,0);
 
-                            }
-                            mReadBatteryLevelButton.setText(finalBatteryLevelStringValue);
+          }
+          mReadBatteryLevelButton.setText(finalBatteryLevelStringValue);
 
-                            setProgressBarIndeterminateVisibility(false);
-                        }
-
-
-                    });
+          setProgressBarIndeterminateVisibility(false);
+      });
                 }
 
                 ///////////////////////////////////////////////////////////////////////////////////
@@ -446,9 +411,9 @@ Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
                   //  String finalOdometerDecimalValue = odometerDecimalValue;
 
                   //  long finalOdometerDecimalValue1 = odometerDecimalValue2;
-                    String finalOutput80 = output80;
-                    String finalOutput85 = output85;
-                    String finalOutput90 = output90;
+                    final String finalOutput80 = output80;
+                    final String finalOutput85 = output85;
+                    final String finalOutput90 = output90;
                     runOnUiThread(() -> mReadOdometerButton.setText( finalOutput80 + " @ 80mm 56T\n"+ finalOutput85 +" @ 85mm 56T\n"+ finalOutput90 +" @ 90mm 56T"));
                 } else if (BleUuid.CHAR_RIDE_MODE_STRING
                         .equalsIgnoreCase(characteristic.getUuid().toString())) {
@@ -686,25 +651,26 @@ Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
                 }
 
 
-
-                    if (String.valueOf(hexFormattedState).equals("01")) {
+                switch (String.valueOf(hexFormattedState)) {
+                    case "01":
 
                         ch.setValue(new byte[]{(byte) 0x02});
 
-                    }
-                    else if (String.valueOf(hexFormattedState).equals("02")) {
+                        break;
+                    case "02":
 
                         ch.setValue(new byte[]{(byte) 0x03});
-                    }
-                    else if (String.valueOf(hexFormattedState).equals("03")) {
+                        break;
+                    case "03":
 
                         ch.setValue(new byte[]{(byte) 0x01});
-                    }
-                    else if (String.valueOf(hexFormattedState).equals("00")) {
+                        break;
+                    case "00":
 
                         ch.getService().getCharacteristic(UUID.fromString(BleUuid.CHAR_LIGHT_STATE));
                         ch.setValue(new byte[]{(byte) 0x01});
-                    }
+                        break;
+                }
                     if (mConnGatt.writeCharacteristic(ch)) {
                         setProgressBarIndeterminateVisibility(true);
                     }
@@ -823,42 +789,38 @@ Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
 
     }else if (v.getId() == R.id.update_all_button) {
 
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
+            runOnUiThread(() -> {
 
 
-                    try {
-                        mReadBatteryStateButton.performClick();
-                        Thread.sleep(500);
-                        mReadBatteryLevelButton.performClick();
-                        Thread.sleep(500);
+                try {
+                    mReadBatteryStateButton.performClick();
+                    Thread.sleep(500);
+                    mReadBatteryLevelButton.performClick();
+                    Thread.sleep(500);
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    mReadLightState.performClick();
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mReadOdometerButton.performClick();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mReadRideStateButton.performClick();
-                    try {
-                        Thread.sleep(70);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mReadBoardNameButton.performClick();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+                mReadLightState.performClick();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mReadOdometerButton.performClick();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mReadRideStateButton.performClick();
+                try {
+                    Thread.sleep(70);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mReadBoardNameButton.performClick();
             });
 
 
