@@ -360,6 +360,9 @@ Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
           else if(batteryLevelIntValue>20) {
               mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_20_black_48dp, 0, 0,0);
 
+          }else if(batteryLevelIntValue>20) {
+              mReadBatteryLevelButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_battery_alert_black_48dp, 0, 0,0);
+
           }
           mReadBatteryLevelButton.setText(finalBatteryLevelStringValue);
 

@@ -38,6 +38,7 @@
                 android:layout_height="99dp"
 
                 android:layout_marginStart="0dp"
+                android:drawableLeft="@drawable/icn_skateboardname"
                 android:text="@string/read_board_name"
                 android:textSize="24sp" />
 
