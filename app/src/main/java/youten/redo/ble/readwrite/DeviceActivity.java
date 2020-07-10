@@ -263,16 +263,24 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     String name = Arrays.toString(temp3);
                     if (name.equalsIgnoreCase("[1]")) {
                         name = "Charging";
-                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_power_black_36dp, 0, 0,0);
+                        String finalName = name;
+                        runOnUiThread(() -> {
+                            mReadBatteryStateButton.setText(finalName);
+                            mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_power_black_36dp, 0, 0,0);
+                            setProgressBarIndeterminateVisibility(false);
+                        });
+
                     } else {
                         name = "Not Charging";
-                        mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_skateboard_1, 0, 0,0);
+                        String finalName = name;
+                        runOnUiThread(() -> {
+                            mReadBatteryStateButton.setText(finalName);
+                            mReadBatteryStateButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_skateboard_1, 0, 0,0);
+                            setProgressBarIndeterminateVisibility(false);
+                        });
+
                     }
-                    String finalName = name;
-                    runOnUiThread(() -> {
-                        mReadBatteryStateButton.setText(finalName);
-                        setProgressBarIndeterminateVisibility(false);
-                    });
+
                 }
                 ///////////////////////////////////////////////////////////////////////////////////
                 //                  Beams support testing   status is probably on/off/blinking for
