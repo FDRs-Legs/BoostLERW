@@ -500,9 +500,9 @@ Log.d("jkj5kl4j5","this is the value "+ batteryLevelIntValue);
         mWriteToggleLightButton = findViewById(R.id.write_toggle_light_button);
         mWriteToggleLightButton.setOnClickListener(this);
        mWriteLightBrightSeeker = findViewById(R.id.read_light_bright_state);
-       mWriteLightBrightSeeker.setMax(255);
+       mWriteLightBrightSeeker.setMax(255); //max brightness for headlights
 
-
+//Seekbar for head lights
         mWriteLightBrightSeeker .setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChangedValue = 0;
 
